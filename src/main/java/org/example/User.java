@@ -5,42 +5,58 @@ import java.util.Scanner;
 
 public class User {
     public User() {
-        runMe();
+        
     }
 
-    private void runMe() {
-        Boolean runAgain = true;
+    public void runMe() {
+        Integer selection = null;
         Scanner userScanner = new Scanner(System.in);
-        while(runAgain) {
-            runAgain = promptUserForSelection(userScanner);
+        while(selection != 7) {
+            selection = promptUserForSelection(userScanner);
+            makeSelection(selection, userScanner);
         }
     }
 
-    private Boolean promptUserForSelection(Scanner scanner) {
-        //give the user a list of items to pick from. each item gets a corresponding number
-        System.out.println("");
-        String selection = scanner.nextLine();
+    public Integer promptUserForSelection(Scanner scanner) {
+        boolean tryAgain = true;
+        Integer selection = null;
+        while (tryAgain) {
+            //give the user a list of items to pick from. each item gets a corresponding number
+            System.out.println("");
+            String selectionString = scanner.nextLine();
+            selection = Integer.getInteger(selectionString);
+            //if invalid selction then return true to go again.
+            tryAgain = validateSelection(selection);
+        }
+        return selection;
+    }
+
+    public boolean validateSelection(Integer selection) {
+        return false;
+    }
+
+    public Boolean makeSelection(Integer selection, Scanner scanner){
         //switch case statement here to decode the selection into the correct function
         switch (selection) {
-            case "1": addBill(scanner);
+            case 1: addBill(scanner);
                 break;
-            case "2": addPaymentAccount(scanner);
+            case 2: addPaymentAccount(scanner);
                 break;
-            case "3": addBudget(scanner);
+            case 3: addBudget(scanner);
                 break;
-            case "4": addTransaction(scanner);
+            case 4: addTransaction(scanner);
                 break;
-            case "5": generateWhatIf(scanner);
+            case 5: generateWhatIf(scanner);
                 break;
-            case "6": generateReport(scanner);
+            case 6: generateReport(scanner);
                 break;
-            case "7": return false;
+            case 7: return false;
         }
 
         return true;
     }
 
-    private void addBill(Scanner scanner) {
+    public void addBill(Scanner scanner) {
         //have the user pick a csv file or manually enter the data
         Integer fromSwitch = askUserWhereFrom(scanner);
         SqlOperator addBillSqlOperator = new SqlOperator();
@@ -64,31 +80,44 @@ public class User {
 
     }
 
-    private Integer askUserWhereFrom(Scanner scanner) {
+    public Integer askUserWhereFrom(Scanner scanner) {
         return 0;
     }
 
-    private String promptUserForCsvName() {
+    public String promptUserForCsvName(Scanner scanner) {
+        boolean tryAgain = true;
+        String csvNameString = null;
+        while (tryAgain) {
+            //ask the user for the csv name
+            System.out.println("");
+            csvNameString = scanner.nextLine();
+            //if invalid selction then return true to go again.
+            tryAgain = validateCsvIsPresent(csvNameString);
+        }
+        return csvNameString;
         return "";
     }
 
-    private List<String> promptUserForManualBillInstance() {
+    private boolean validateCsvIsPresent(String csvNameString) {
+    }
+
+    public List<String> promptUserForManualBillInstance() {
         List<String> returner = null;
         return returner;
     }
 
-    private void addPaymentAccount(Scanner scanner) {
+    public void addPaymentAccount(Scanner scanner) {
     }
 
-    private void addBudget(Scanner scanner) {
+    public void addBudget(Scanner scanner) {
     }
 
-    private void addTransaction(Scanner scanner) {
+    public void addTransaction(Scanner scanner) {
     }
 
-    private void generateWhatIf(Scanner scanner) {
+    public void generateWhatIf(Scanner scanner) {
     }
 
-    private void generateReport(Scanner scanner) {
+    public void generateReport(Scanner scanner) {
     }
 }

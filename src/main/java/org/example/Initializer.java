@@ -4,26 +4,26 @@ package org.example;
 public class Initializer {
     SqlOperator initializerSqlOperator= new SqlOperator();
     public Initializer() {
-        runMe();
+
     }
 
-    private void runMe() {
+    public void runMe() {
         grabUsernames();
         pickUsername();
         if(!checkForPreviousRun()){
             generateRequiredTables();
         }
     }
-    private void grabUsernames() {
+    public void grabUsernames() {
 
     }
-    private void pickUsername() {
+    public void pickUsername() {
 
     }
-    private boolean checkForPreviousRun() {
+    public boolean checkForPreviousRun() {
         return false;
     }
-    private void generateRequiredTables() {
+    public void generateRequiredTables() {
         generateBillTable();
         generateTransactionTable();
         generatePaymentAccountTable();
@@ -31,23 +31,23 @@ public class Initializer {
         generateMasterTable();
 
     }
-    private void generateBillTable() {
+    public void generateBillTable() {
         //HARDCODE BILL TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
         initializerSqlOperator.createTable();
     }
-    private void generateTransactionTable() {
+    public void generateTransactionTable() {
         //HARDCODE Transaction TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
         initializerSqlOperator.createTable();
     }
-    private void generatePaymentAccountTable() {
+    public void generatePaymentAccountTable() {
         //HARDCODE PaymentAccount TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
         initializerSqlOperator.createTable();
     }
-    private void generateBudgetTable() {
+    public void generateBudgetTable() {
         //HARDCODE Budget TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
         initializerSqlOperator.createTable();
     }
-    private void generateMasterTable() {
+    public void generateMasterTable() {
         //HARDCODE Master TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
         initializerSqlOperator.createTable();
     }
