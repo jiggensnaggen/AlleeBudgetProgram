@@ -61,7 +61,7 @@ public class User {
         Integer fromSwitch = askUserWhereFrom(scanner);
         SqlOperator addBillSqlOperator = new SqlOperator();
         if (fromSwitch == 0){
-            String csvName = promptUserForCsvName();
+            String csvName = promptUserForCsvName(scanner);
             addBillSqlOperator.pushCsvDataToDatabase(csvName);
         }
         else {
@@ -95,10 +95,10 @@ public class User {
             tryAgain = validateCsvIsPresent(csvNameString);
         }
         return csvNameString;
-        return "";
     }
 
     private boolean validateCsvIsPresent(String csvNameString) {
+        return true;
     }
 
     public List<String> promptUserForManualBillInstance() {
