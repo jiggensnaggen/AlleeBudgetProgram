@@ -50,11 +50,11 @@ public class Initializer {
         return false;
     }
     public void generateRequiredTables(String chosenUser) {
-        generateBillTable();
-        generateTransactionTable();
-        generatePaymentAccountTable();
-        generateBudgetTable();
-        generateMasterTable();
+        generateBillTable(chosenUser);
+        generateTransactionTable(chosenUser);
+        generatePaymentAccountTable(chosenUser);
+        generateBudgetTable(chosenUser);
+        generateMasterTable(chosenUser);
 
     }
     public void generateBillTable(String chosenUser) {
