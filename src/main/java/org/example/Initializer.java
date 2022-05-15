@@ -11,13 +11,13 @@ public class Initializer {
 
     public void runMe() {
         Scanner initializerScanner = new Scanner(System.in);
-        grabUsernames(initializerScanner);
-        pickUsername();
-        if(!checkForPreviousRun()){
-            generateRequiredTables();
+        String[] usernames = grabUsernames(initializerScanner);
+        String chosenUser = pickUsername(usernames);
+        if(!checkForPreviousRun(chosenUser)){
+            generateRequiredTables(chosenUser);
         }
     }
-    public void grabUsernames(Scanner initializerScanner) {
+    public String[] grabUsernames(Scanner initializerScanner) {
         // if the username db and table are present then skip creation
         if(!initializerSqlOperator.checkForUsernameDatabaseAndTable()){
             //creates a database for the username table to sit in.
@@ -30,8 +30,9 @@ public class Initializer {
             createUsernameInstanceAndCorrespondingDatabase(initializerScanner);
 
         }
-
-
+        //
+        String[] usernamesReturner = initializerSqlOperator.grabUsernamesFromUsernameTable();
+        return usernamesReturner;
     }
 
     private void createUsernameInstanceAndCorrespondingDatabase(Scanner initializerScanner) {
@@ -41,13 +42,14 @@ public class Initializer {
         initializerSqlOperator.generateUserDatabase(username);
     }
 
-    public void pickUsername() {
+    public String pickUsername(String[] usernames) {
         //must pick from list or add new user
+        return null;
     }
-    public boolean checkForPreviousRun() {
+    public boolean checkForPreviousRun(String chosenUser) {
         return false;
     }
-    public void generateRequiredTables() {
+    public void generateRequiredTables(String chosenUser) {
         generateBillTable();
         generateTransactionTable();
         generatePaymentAccountTable();
@@ -55,24 +57,24 @@ public class Initializer {
         generateMasterTable();
 
     }
-    public void generateBillTable() {
-        initializerSqlOperator.createTable("BillTable");
+    public void generateBillTable(String chosenUser) {
+        initializerSqlOperator.createTable("BillTable", chosenUser);
     }
-    public void generateTransactionTable() {
+    public void generateTransactionTable(String chosenUser) {
         //HARDCODE Transaction TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
-        initializerSqlOperator.createTable("TransactionTable");
+        initializerSqlOperator.createTable("TransactionTable", chosenUser);
     }
-    public void generatePaymentAccountTable() {
+    public void generatePaymentAccountTable(String chosenUser) {
         //HARDCODE PaymentAccount TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
-        initializerSqlOperator.createTable("PaymentAccountTable");
+        initializerSqlOperator.createTable("PaymentAccountTable", chosenUser);
     }
-    public void generateBudgetTable() {
+    public void generateBudgetTable(String chosenUser) {
         //HARDCODE Budget TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
-        initializerSqlOperator.createTable("BudgetTable");
+        initializerSqlOperator.createTable("BudgetTable", chosenUser);
     }
-    public void generateMasterTable() {
+    public void generateMasterTable(String chosenUser) {
         //HARDCODE Master TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
-        initializerSqlOperator.createTable("MasterTable");
+        initializerSqlOperator.createTable("MasterTable", chosenUser);
     }
 
 

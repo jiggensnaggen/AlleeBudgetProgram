@@ -6,8 +6,8 @@ public class SqlOperator {
     public SqlOperator() {
     }
 
-    public void createTable(String tableName) {
-        String[] tableNames = new String[]{"BillTable", "TransactionTable","PaymentAccountTable","BudgetTable","MasterTable"});
+    public void createTable(String tableName, String chosenUser) {
+        String[] tableNames = new String[]{"BillTable", "TransactionTable","PaymentAccountTable","BudgetTable","MasterTable"};
         //HARDCODE TABLE CREATION INPUTS HERE
         if ("BillTable".equals(tableNames)) {
 
