@@ -32,24 +32,23 @@ public class Initializer {
 
     }
     public void generateBillTable() {
-        //HARDCODE BILL TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
-        initializerSqlOperator.createTable();
+        initializerSqlOperator.createTable("BillTable");
     }
     public void generateTransactionTable() {
         //HARDCODE Transaction TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
-        initializerSqlOperator.createTable();
+        initializerSqlOperator.createTable("TransactionTable");
     }
     public void generatePaymentAccountTable() {
         //HARDCODE PaymentAccount TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
-        initializerSqlOperator.createTable();
+        initializerSqlOperator.createTable("PaymentAccountTable");
     }
     public void generateBudgetTable() {
         //HARDCODE Budget TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
-        initializerSqlOperator.createTable();
+        initializerSqlOperator.createTable("BudgetTable");
     }
     public void generateMasterTable() {
         //HARDCODE Master TABLE CREATION INPUTS HERE AND PASS THEM INTO .createTable()
-        initializerSqlOperator.createTable();
+        initializerSqlOperator.createTable("MasterTable");
     }
 
 
