@@ -85,7 +85,7 @@ public class User {
     public void addBill(Scanner scanner) {
         //have the user pick a csv file or manually enter the data
         Integer fromSwitch = askUserWhereFrom(scanner);
-        SqlOperator addBillSqlOperator = new SqlOperator();
+        SqlOperator addBillSqlOperator = new SqlOperator(logger);
         if (fromSwitch == 0){
             String csvName = promptUserForCsvName(scanner);
             addBillSqlOperator.pushCsvDataToDatabase(csvName);
