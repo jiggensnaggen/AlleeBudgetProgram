@@ -10,33 +10,39 @@ public class Initializer {
     }
 
     public void runMe() {
-        Scanner initilizerScanner = new Scanner(System.in);
-        grabUsernames(initilizerScanner);
+        Scanner initializerScanner = new Scanner(System.in);
+        grabUsernames(initializerScanner);
         pickUsername();
         if(!checkForPreviousRun()){
             generateRequiredTables();
         }
     }
-    public void grabUsernames(Scanner initilizerScanner) {
-        if(!checkForUsernameTable()){
-            createUsernameTable(initilizerScanner);
+    public void grabUsernames(Scanner initializerScanner) {
+        // if the username db and table are present then skip creation
+        if(!initializerSqlOperator.checkForUsernameDatabaseAndTable()){
+            //creates a database for the username table to sit in.
+            //creates the username table
+            initializerSqlOperator.createUsernameDatabaseAndTable();
+            //fill the username table
+            //crate a database for the corresponding username
+            System.out.println("No usernames present.");
+            //create username
+            createUsernameInstanceAndCorrespondingDatabase(initializerScanner);
+
         }
 
 
     }
 
-    private boolean checkForUsernameTable() {
-    }
-
-    private void createUsernameTable(Scanner initilizerScanner) {
-        System.out.println("No usernames present. Please enter a username:");
-        String username = initilizerScanner.nextLine();
+    private void createUsernameInstanceAndCorrespondingDatabase(Scanner initializerScanner) {
+        System.out.println("Please enter a username:");
+        String username = initializerScanner.nextLine();
         initializerSqlOperator.addInstanceToUserTable(username);
         initializerSqlOperator.generateUserDatabase(username);
     }
 
     public void pickUsername() {
-        //if the name is not in the db then it can be added
+        //must pick from list or add new user
     }
     public boolean checkForPreviousRun() {
         return false;

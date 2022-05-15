@@ -36,4 +36,13 @@ public class SqlOperator {
 
     public void generateUserDatabase(String username) {
     }
+
+    public void createUsernameDatabaseAndTable() {
+    }
+
+    public boolean checkForUsernameDatabaseAndTable(){
+
+        return false;
+    }
+
 }
