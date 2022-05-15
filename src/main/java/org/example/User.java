@@ -49,12 +49,12 @@ public class User {
             selectionInt = Integer.getInteger(selection);
         }
         catch(Exception e){
-            logger.debug("User did not enter a number selection when choosing an action. Re-prompting user");
+            logger.warn("User did not enter a number selection when choosing an action. Re-prompting user");
             return false;
         }
         for(int x=0;x<7;x++){
             if (selectionInt != x) {
-                logger.debug("User did not enter a correct number selection when choosing an action. Re-promptin user");
+                logger.warn("User did not enter a correct number selection when choosing an action. Re-promptin user");
                 return false;
             }
         }

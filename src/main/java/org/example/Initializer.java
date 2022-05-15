@@ -1,12 +1,15 @@
 package org.example;
 
 
+import org.apache.log4j.Logger;
+
 import java.util.Scanner;
 
 public class Initializer {
     SqlOperator initializerSqlOperator= new SqlOperator();
-    public Initializer() {
-
+    Logger logger = null;
+    public Initializer(Logger logger) {
+        logger = logger;
     }
 
     public void runMe() {
