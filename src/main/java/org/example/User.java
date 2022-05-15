@@ -24,20 +24,41 @@ public class User {
 
     public Integer promptUserForSelection(Scanner scanner) {
         boolean tryAgain = true;
-        Integer selection = null;
+        String selectionString = null;
         while (tryAgain) {
             //give the user a list of items to pick from. each item gets a corresponding number
-            System.out.println("");
-            String selectionString = scanner.nextLine();
-            selection = Integer.getInteger(selectionString);
+            System.out.println("Pick what you would like to do:");
+            System.out.println("1: Add Bill");
+            System.out.println("2: Add Payment Account");
+            System.out.println("3: Add Budget");
+            System.out.println("4: Add Transaction");
+            System.out.println("5: Generate What-If");
+            System.out.println("6: Generate Report");
+            System.out.println("7: Exit");
+            selectionString = scanner.nextLine();
+
             //if invalid selction then return true to go again.
-            tryAgain = validateSelection(selection);
+            tryAgain = validateSelection(selectionString);
         }
-        return selection;
+        return Integer.getInteger(selectionString);
     }
 
-    public boolean validateSelection(Integer selection) {
-        return false;
+    public boolean validateSelection(String selection) {
+        Integer selectionInt = null;
+        try{
+            selectionInt = Integer.getInteger(selection);
+        }
+        catch(Exception e){
+            logger.debug("User did not enter a number selection when choosing an action. Re-prompting user");
+            return false;
+        }
+        for(int x=0;x<7;x++){
+            if (selectionInt != x) {
+                logger.debug("User did not enter a correct number selection when choosing an action. Re-promptin user");
+                return false;
+            }
+        }
+        return true;
     }
 
     public Boolean makeSelection(Integer selection, Scanner scanner){

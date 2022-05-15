@@ -45,4 +45,6 @@ public class SqlOperator {
         return false;
     }
 
+    public String[] grabUsernamesFromUsernameTable() {
+    }
 }
