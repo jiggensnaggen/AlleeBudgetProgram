@@ -1,6 +1,8 @@
 package org.example;
 
 
+import java.util.Scanner;
+
 public class Initializer {
     SqlOperator initializerSqlOperator= new SqlOperator();
     public Initializer() {
@@ -8,17 +10,33 @@ public class Initializer {
     }
 
     public void runMe() {
-        grabUsernames();
+        Scanner initilizerScanner = new Scanner(System.in);
+        grabUsernames(initilizerScanner);
         pickUsername();
         if(!checkForPreviousRun()){
             generateRequiredTables();
         }
     }
-    public void grabUsernames() {
+    public void grabUsernames(Scanner initilizerScanner) {
+        if(!checkForUsernameTable()){
+            createUsernameTable(initilizerScanner);
+        }
+
 
     }
-    public void pickUsername() {
 
+    private boolean checkForUsernameTable() {
+    }
+
+    private void createUsernameTable(Scanner initilizerScanner) {
+        System.out.println("No usernames present. Please enter a username:");
+        String username = initilizerScanner.nextLine();
+        initializerSqlOperator.addInstanceToUserTable(username);
+        initializerSqlOperator.generateUserDatabase(username);
+    }
+
+    public void pickUsername() {
+        //if the name is not in the db then it can be added
     }
     public boolean checkForPreviousRun() {
         return false;

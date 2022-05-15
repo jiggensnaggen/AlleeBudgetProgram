@@ -30,4 +30,10 @@ public class SqlOperator {
 
     public void pushCsvDataToDatabase(String csvName) {
     }
+
+    public void addInstanceToUserTable(String username) {
+    }
+
+    public void generateUserDatabase(String username) {
+    }
 }
