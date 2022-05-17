@@ -170,7 +170,7 @@ public class SqlOperator {
                 }
                 else{
                     logger.debug("could not find a table called usernames. going to create one.");
-                    logger.debug(e);
+                    logger.debug(e); ///remove when done
                     }
             }
 
