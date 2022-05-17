@@ -12,6 +12,7 @@ import java.util.List;
 
 public class SqlOperator {
     Logger logger = null;
+    String dbName = "MoneyManager";
     public SqlOperator(Logger loggerFromAbove) {
         logger = loggerFromAbove;
     }
@@ -23,23 +24,23 @@ public class SqlOperator {
         if ("BillTable".equals(tableName)) {
 
         } else if ("TransactionTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser + tableName + " (transaction_id INTEGER(64),  description varchar(255), amount_in_or_out DOUBLE(255,2), date_paid DATETIME, category varchar(255), subcategory varchar(255), payment_account_id INTEGER(64), budget_id INTEGER(64), bill_id INTEGER(64));";
+            createTableQuery = "CREATE TABLE " + chosenUser + tableName + " (transaction_id INTEGER,  description varchar(255), amount_in_or_out DOUBLE(255,2), date_paid DATETIME, category varchar(255), subcategory varchar(255), payment_account_id INTEGER, budget_id INTEGER, bill_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("PaymentAccountTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (payment_account_id INTEGER(64), account_number INTEGER(64), account_name VARCHAR(255),  account_institution VARCHAR(255), account_type varchar(255), account_balance DOUBLE(255,2), account_due_date INTEGER(64), account_report_date INTEGER(64), account_closing_date INTEGER(64), payment_account_instance_id INTEGER(64));";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (payment_account_id INTEGER, account_number INTEGER, account_name VARCHAR(255),  account_institution VARCHAR(255), account_type varchar(255), account_balance DOUBLE(255,2), account_due_date INTEGER, account_report_date INTEGER, account_closing_date INTEGER, payment_account_instance_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("BillTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (bill_id INTEGER(64), due_date DATETIME, item_name VARCHAR(255),  amount_due DOUBLE(255,2), cash_or_card_payment varchar(255), payment_type_used VARCHAR(255), payment_status VARCHAR(255), bill_transaction_difference DOUBLE(255,2), transaction_id INTEGER(64), planned_payment_account_id INTEGER(64), used_payment_account_id INTEGER(64), date_paid DATETIME, bill_instance_id INTEGER(64));";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (bill_id INTEGER, due_date DATETIME, item_name VARCHAR(255),  amount_due DOUBLE(255,2), cash_or_card_payment varchar(255), payment_type_used VARCHAR(255), payment_status VARCHAR(255), bill_transaction_difference DOUBLE(255,2), transaction_id INTEGER, planned_payment_account_id INTEGER, used_payment_account_id INTEGER, date_paid DATETIME, bill_instance_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("BudgetTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (budget_id INTEGER(64), category VARCHAR(255), subcategory VARCHAR(255), limit DOUBLE(255,2), amount_used DOUBLE(255,2), amount_left DOUBLE(255,2), budget_start DATETIME, budget_end DATETIME,  budgeted_transaction_id_list VARCHAR(255), budget_instance_id INTEGER(64));";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (budget_id INTEGER, category VARCHAR(255), subcategory VARCHAR(255), limit DOUBLE(255,2), amount_used DOUBLE(255,2), amount_left DOUBLE(255,2), budget_start DATETIME, budget_end DATETIME,  budgeted_transaction_id_list VARCHAR(255), budget_instance_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("MasterTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (category varchar(255), subcategory varchar(255), description varchar(255), amount_in_or_out DOUBLE(255,2),date_paid DATETIME, payment_account_id INTEGER(64), account_name VARCHAR(255), account_type varchar(255), account_balance DOUBLE(255,2),budget_id INTEGER(64), budget_start DATETIME, budget_end DATETIME,amount_used DOUBLE(255,2), amount_left DOUBLE(255,2),  limit DOUBLE(255,2), master_table_id INTEGER(64));";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (category varchar(255), subcategory varchar(255), description varchar(255), amount_in_or_out DOUBLE(255,2),date_paid DATETIME, payment_account_id INTEGER, account_name VARCHAR(255), account_type varchar(255), account_balance DOUBLE(255,2),budget_id INTEGER, budget_start DATETIME, budget_end DATETIME,amount_used DOUBLE(255,2), amount_left DOUBLE(255,2),  limit DOUBLE(255,2), master_table_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
         }
 
@@ -62,24 +63,42 @@ public class SqlOperator {
     public void pushCsvDataToDatabase(String csvName) {
     }
 
-    public void addInstanceToUserTable(String username) {
+    public void addInstanceToUserTable(String username) throws SQLException, IOException {
+        String nextId = null;
+        String connectionUrl = createConnectionUrl(dbName);
+        String getNextIdQuery = "select MAX(user_id) from usernames;";
+        Table returnedTable = returnDataFromDatabase(getNextIdQuery,connectionUrl);
+        System.out.println(returnedTable.toString());
+        System.exit(0);
+        String addInstanceQuery = "INSERT INTO usernames(username, user_id) VALUES (" + username + ", " + nextId + ");";
     }
 
     public void generateUserDatabase(String username) {
     }
 
     public void createUsernameDatabaseAndTable() {
+        String createUsernamesTable = "CREATE TABLE usernames (username VARCHAR(255), user_id INTEGER);";
+        String connectionUrl = createConnectionUrl(dbName);
+        if (sendStatementToDatabase(createUsernamesTable,connectionUrl)){
+            logger.debug("creation of username table successful.");
+        }
+        else{
+            logger.fatal("Could not create the usernames table. Exiting now.");
+            System.out.println("Could not create the usernames table. Exiting now.");
+            System.exit(0);
+        }
     }
 
-    public boolean checkForUsernameDatabaseAndTable(){
-
-
-        return false;
+    public boolean checkForUsernameTable(){
+        //creates query and connection url, then validates that usernames is present in the database
+        String userNameChecker = "Select * from usernames;";
+        String connectionUrl = createConnectionUrl(dbName);
+        return sendStatementToDatabase(userNameChecker,connectionUrl);
     }
 
     public List<String> grabUsernamesFromUsernameTable() throws SQLException, IOException {
         String grabUsernamesQuery = "Select * from usernames;";
-        String connectionUrl = createConnectionUrl("MoneyManager");
+        String connectionUrl = createConnectionUrl(dbName);
         Table returnerTable = returnDataFromDatabase(grabUsernamesQuery,connectionUrl);
         List<String> returnerList = (List<String>) returnerTable.column(0).asList();
         return returnerList;
@@ -142,12 +161,22 @@ public class SqlOperator {
                 return true;
             }
             catch (SQLException e) {
-                logger.fatal("Statement " + sqlQuery + " was not executed successfully.");
-                System.out.println("Statement " + sqlQuery + " was not executed successfully. Exiting now.");
-                System.exit(0);
+
+                if(sqlQuery != "Select * from usernames;"){
+                    logger.fatal("Statement " + sqlQuery + " was not executed successfully.");
+                    System.out.println("Statement " + sqlQuery + " was not executed successfully. Exiting now.");
+                    logger.fatal(e.toString());
+                    System.exit(0);
+                }
+                else{
+                    logger.debug("could not find a table called usernames. going to create one.");
+                    logger.debug(e);
+                    }
             }
+
         }
         catch(Exception e){
+
             logger.fatal("Could not connect to the database.");
             System.out.println("Could not connect to the database. Exiting now.");
             System.exit(0);

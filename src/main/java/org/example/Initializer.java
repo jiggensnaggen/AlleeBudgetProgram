@@ -26,7 +26,7 @@ public class Initializer {
     }
     public List<String> grabUsernames(Scanner initializerScanner) throws SQLException, IOException {
         // if the username db and table are present then skip creation
-        if(!initializerSqlOperator.checkForUsernameDatabaseAndTable()){
+        if(!initializerSqlOperator.checkForUsernameTable()){
             //creates a database for the username table to sit in.
             //creates the username table
             initializerSqlOperator.createUsernameDatabaseAndTable();
@@ -42,7 +42,7 @@ public class Initializer {
         return usernamesReturner;
     }
 
-    private void createUsernameInstanceAndCorrespondingDatabase(Scanner initializerScanner) {
+    private void createUsernameInstanceAndCorrespondingDatabase(Scanner initializerScanner) throws SQLException, IOException {
         System.out.println("Please enter a username:");
         String username = initializerScanner.nextLine();
         initializerSqlOperator.addInstanceToUserTable(username);

@@ -1,2 +1,2 @@
-Hello world.
-What a beatiful day.
+could not find a table called usernames. going to create one.
+com.microsoft.sqlserver.jdbc.SQLServerException: A result set was generated for update.
