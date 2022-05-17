@@ -3,6 +3,9 @@ package org.example;
 
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Initializer {
@@ -13,15 +16,15 @@ public class Initializer {
         initializerSqlOperator = new SqlOperator(logger);
     }
 
-    public void runMe() {
+    public void runMe() throws SQLException, IOException {
         Scanner initializerScanner = new Scanner(System.in);
-        String[] usernames = grabUsernames(initializerScanner);
-        String chosenUser = pickUsername(usernames);
+        List<String> usernames = grabUsernames(initializerScanner);
+        String chosenUser = pickUsername(usernames,initializerScanner);
         if(!checkForPreviousRun(chosenUser)){
             generateRequiredTables(chosenUser);
         }
     }
-    public String[] grabUsernames(Scanner initializerScanner) {
+    public List<String> grabUsernames(Scanner initializerScanner) throws SQLException, IOException {
         // if the username db and table are present then skip creation
         if(!initializerSqlOperator.checkForUsernameDatabaseAndTable()){
             //creates a database for the username table to sit in.
@@ -35,7 +38,7 @@ public class Initializer {
 
         }
         //
-        String[] usernamesReturner = initializerSqlOperator.grabUsernamesFromUsernameTable();
+        List<String> usernamesReturner = initializerSqlOperator.grabUsernamesFromUsernameTable();
         return usernamesReturner;
     }
 
@@ -46,9 +49,12 @@ public class Initializer {
         initializerSqlOperator.generateUserDatabase(username);
     }
 
-    public String pickUsername(String[] usernames) {
+    public String pickUsername(List<String> usernames, Scanner scanner) throws SQLException, IOException {
         //must pick from list or add new user
-        return null;
+        System.out.println("Pick a username from the following list:");
+        System.out.println(usernames.toString());
+        String pickedUsername = scanner.nextLine();
+        return pickedUsername;
     }
     public boolean checkForPreviousRun(String chosenUser) {
         return false;
