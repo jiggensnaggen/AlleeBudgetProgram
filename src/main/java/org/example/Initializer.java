@@ -6,10 +6,11 @@ import org.apache.log4j.Logger;
 import java.util.Scanner;
 
 public class Initializer {
-    SqlOperator initializerSqlOperator= new SqlOperator();
+    SqlOperator initializerSqlOperator= null;
     Logger logger = null;
     public Initializer(Logger logger) {
         logger = logger;
+        initializerSqlOperator = new SqlOperator(logger);
     }
 
     public void runMe() {

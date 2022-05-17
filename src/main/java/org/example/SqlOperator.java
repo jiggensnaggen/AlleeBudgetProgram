@@ -15,22 +15,38 @@ public class SqlOperator {
     }
 
     public void createTable(String tableName, String chosenUser) {
-        String[] tableNames = new String[]{"BillTable", "TransactionTable","PaymentAccountTable","BudgetTable","MasterTable"};
+        String createTableConnectionUrl = createConnectionUrl("MoneyManager");
+        String createTableQuery = null;
         //HARDCODE TABLE CREATION INPUTS HERE
-        if ("BillTable".equals(tableNames)) {
+        if ("BillTable".equals(tableName)) {
 
-        } else if ("TransactionTable".equals(tableNames)) {
+        } else if ("TransactionTable".equals(tableName)) {
+            createTableQuery = "CREATE TABLE "  + tableName + " (transaction_id INTEGER(64),  description varchar(255), amount_in_or_out DOUBLE(255,2), date_paid DATETIME,category varchar(255), subcategory varchar(255), payment_account_id INTEGER(64), budget_id INTEGER(64), bill_id INTEGER(64));";
+            sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
-        } else if ("PaymentAccountTable".equals(tableNames)) {
+        } else if ("PaymentAccountTable".equals(tableName)) {
+            createTableQuery = "CREATE TABLE "  + tableName + " (payment_account_id INTEGER(64), account_number INTEGER(64), account_name VARCHAR(255),  account_institution VARCHAR(255), account_type varchar(255), account_balance DOUBLE(255,2), account_due_date DATETIME, account_report_date DATETIME, account_closing_date DATETIME, payment_account_instance_id INTEGER(64));";
+            sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
-        } else if ("PaymentAccountTable".equals(tableNames)) {
+        } else if ("PaymentAccountTable".equals(tableName)) {
 
-        } else if ("BudgetTable".equals(tableNames)) {
+        } else if ("BudgetTable".equals(tableName)) {
 
-        } else if ("MasterTable".equals(tableNames)) {
+        } else if ("MasterTable".equals(tableName)) {
 
         }
 
+    }
+
+    private String createConnectionUrl(String databaseName) {
+        String connectionUrl =
+                "jdbc:sqlserver://localhost;"
+                        + "databaseName="+ databaseName +";" +
+                        "encrypt=true;" +
+                        "trustServerCertificate=true;" +
+                        "integratedsecurity=true;"
+        ;
+        return connectionUrl;
     }
 
     public void pushManualDataToDatabase(List<String> manualBillInstance) {
@@ -55,6 +71,7 @@ public class SqlOperator {
     }
 
     public String[] grabUsernamesFromUsernameTable() {
+        return ;
     }
 
 
