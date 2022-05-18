@@ -6,6 +6,7 @@ import tech.tablesaw.api.StringColumn;
 import tech.tablesaw.api.Table;
 
 import java.io.IOException;
+import java.rmi.server.ExportException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,23 +25,23 @@ public class SqlOperator {
         if ("BillTable".equals(tableName)) {
 
         } else if ("TransactionTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser + tableName + " (transaction_id INTEGER,  description varchar(255), amount_in_or_out DOUBLE(255,2), date_paid DATETIME, category varchar(255), subcategory varchar(255), payment_account_id INTEGER, budget_id INTEGER, bill_id INTEGER);";
+            createTableQuery = "CREATE TABLE " + chosenUser + tableName + " (transaction_id INTEGER,  description varchar(255), amount_in_or_out DECIMAL(255,2), date_paid DATETIME, category varchar(255), subcategory varchar(255), payment_account_id INTEGER, budget_id INTEGER, bill_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("PaymentAccountTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (payment_account_id INTEGER, account_number INTEGER, account_name VARCHAR(255),  account_institution VARCHAR(255), account_type varchar(255), account_balance DOUBLE(255,2), account_due_date INTEGER, account_report_date INTEGER, account_closing_date INTEGER, payment_account_instance_id INTEGER);";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (payment_account_id INTEGER, account_number INTEGER, account_name VARCHAR(255),  account_institution VARCHAR(255), account_type varchar(255), account_balance DECIMAL(255,2), account_due_date INTEGER, account_report_date INTEGER, account_closing_date INTEGER, payment_account_instance_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("BillTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (bill_id INTEGER, due_date DATETIME, item_name VARCHAR(255),  amount_due DOUBLE(255,2), cash_or_card_payment varchar(255), payment_type_used VARCHAR(255), payment_status VARCHAR(255), bill_transaction_difference DOUBLE(255,2), transaction_id INTEGER, planned_payment_account_id INTEGER, used_payment_account_id INTEGER, date_paid DATETIME, bill_instance_id INTEGER);";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (bill_id INTEGER, due_date DATETIME, item_name VARCHAR(255),  amount_due DECIMAL(255,2), cash_or_card_payment varchar(255), payment_type_used VARCHAR(255), payment_status VARCHAR(255), bill_transaction_difference DECIMAL(255,2), transaction_id INTEGER, planned_payment_account_id INTEGER, used_payment_account_id INTEGER, date_paid DATETIME, bill_instance_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("BudgetTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (budget_id INTEGER, category VARCHAR(255), subcategory VARCHAR(255), limit DOUBLE(255,2), amount_used DOUBLE(255,2), amount_left DOUBLE(255,2), budget_start DATETIME, budget_end DATETIME,  budgeted_transaction_id_list VARCHAR(255), budget_instance_id INTEGER);";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (budget_id INTEGER, category VARCHAR(255), subcategory VARCHAR(255), limit DECIMAL(255,2), amount_used DECIMAL(255,2), amount_left DECIMAL(255,2), budget_start DATETIME, budget_end DATETIME,  budgeted_transaction_id_list VARCHAR(255), budget_instance_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("MasterTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (category varchar(255), subcategory varchar(255), description varchar(255), amount_in_or_out DOUBLE(255,2),date_paid DATETIME, payment_account_id INTEGER, account_name VARCHAR(255), account_type varchar(255), account_balance DOUBLE(255,2),budget_id INTEGER, budget_start DATETIME, budget_end DATETIME,amount_used DOUBLE(255,2), amount_left DOUBLE(255,2),  limit DOUBLE(255,2), master_table_id INTEGER);";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (category varchar(255), subcategory varchar(255), description varchar(255), amount_in_or_out DECIMAL(255,2),date_paid DATETIME, payment_account_id INTEGER, account_name VARCHAR(255), account_type varchar(255), account_balance DECIMAL(255,2),budget_id INTEGER, budget_start DATETIME, budget_end DATETIME,amount_used DECIMAL(255,2), amount_left DECIMAL(255,2),  limit DECIMAL(255,2), master_table_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
         }
 
@@ -70,7 +71,7 @@ public class SqlOperator {
         Table returnedTable = returnDataFromDatabase(getNextIdQuery,connectionUrl);
         System.out.println(returnedTable.toString());
         System.exit(0);
-        String addInstanceQuery = "INSERT INTO usernames(username, user_id) VALUES (" + username + ", " + nextId + ");";
+        String addInstanceQuery = "INSERT INTO usernames(username, user_id) VALUES ('" + username + "', '" + nextId + "');";
     }
 
     public void generateUserDatabase(String username) {
@@ -93,7 +94,9 @@ public class SqlOperator {
         //creates query and connection url, then validates that usernames is present in the database
         String userNameChecker = "Select * from usernames;";
         String connectionUrl = createConnectionUrl(dbName);
-        return sendStatementToDatabase(userNameChecker,connectionUrl);
+        Boolean usernamePresent = sendStatementToDatabase(userNameChecker,connectionUrl);
+        System.out.println(usernamePresent);
+        return usernamePresent;
     }
 
     public List<String> grabUsernamesFromUsernameTable() throws SQLException, IOException {
@@ -161,6 +164,11 @@ public class SqlOperator {
                 return true;
             }
             catch (SQLException e) {
+                String resultSetReturned = "com.microsoft.sqlserver.jdbc.SQLServerException: A result set was generated for update.";
+                if(e.toString().contains(resultSetReturned)){
+                    logger.debug("statement " + sqlQuery + " successfully executed");
+                    return true;
+                }
 
                 if(sqlQuery != "Select * from usernames;"){
                     logger.fatal("Statement " + sqlQuery + " was not executed successfully.");
@@ -173,7 +181,6 @@ public class SqlOperator {
                     logger.debug(e); ///remove when done
                     }
             }
-
         }
         catch(Exception e){
 
@@ -182,5 +189,37 @@ public class SqlOperator {
             System.exit(0);
         }
         return false;
+    }
+
+    public void putUsernameInDatabase(String pickedUsername) {
+        Integer nextUsernameId = (getNextUsernameIdFromDatabase() + 1);
+        String nextUsernameIdString = nextUsernameId.toString();
+        String addUsernameToDatabaseQuery = "INSERT INTO usernames (username, user_id) VALUES ('" + pickedUsername + "', '" + nextUsernameIdString +"');";
+        sendStatementToDatabase(addUsernameToDatabaseQuery,createConnectionUrl(dbName));
+    }
+
+    private Integer getNextUsernameIdFromDatabase() {
+        String queryForNextUsernameId = "SELECT MAX(user_id) FROM usernames";
+        String connectionUrl = createConnectionUrl(dbName);
+        try {
+            Table returnedIdTable = returnDataFromDatabase(queryForNextUsernameId, connectionUrl);
+            String returnedIdString = (String) returnedIdTable.column(0).asList().get(0);
+            Integer returnedIdInt = 0;
+            if (returnedIdString.equals("")){
+                returnedIdInt = -1;
+                return returnedIdInt;
+            }
+            Integer returnedId = Integer.getInteger(returnedIdString);
+            return returnedId;
+        }
+        catch(Exception e){
+            logger.fatal("could not get username id from the database. Exiting here.");
+            System.out.println("could not get username id from the database. Exiting here.");
+            e.printStackTrace();
+            System.exit(0);
+        }
+        System.out.println("couldnt get username id from the database. exiting here");
+        System.exit(0);
+        return -1;
     }
 }

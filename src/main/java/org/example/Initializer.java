@@ -50,13 +50,41 @@ public class Initializer {
     }
 
     public String pickUsername(List<String> usernames, Scanner scanner) throws SQLException, IOException {
-        //must pick from list or add new user
-        System.out.println("Pick a username from the following list:");
-        System.out.println(usernames.toString());
-        String pickedUsername = scanner.nextLine();
+        String pickedUsername = null;
+        boolean validation = false;
+        if(usernames.isEmpty()){
+            while(validation == false){
+                System.out.println("No usernames are present in the database. please create one (a-Z,1-0):");
+                pickedUsername = scanner.nextLine();
+                validation = validatePickedUsername(pickedUsername);
+                initializerSqlOperator.putUsernameInDatabase(pickedUsername);
+            }
+            return pickedUsername;
+        }
+        else {
+            while(validation == false){
+                //must pick from list or add new user
+                System.out.println("Pick a username from the following list:");
+                System.out.println(usernames.toString());
+                pickedUsername = scanner.nextLine();
+                validation = validatePickedUsername(pickedUsername);
+                initializerSqlOperator.putUsernameInDatabase(pickedUsername);
+            }
+        }
         return pickedUsername;
     }
+
+    private boolean validatePickedUsername(String pickedUsername) {
+        if(pickedUsername.matches("[a-zA-z0-9]+")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public boolean checkForPreviousRun(String chosenUser) {
+
         return false;
     }
     public void generateRequiredTables(String chosenUser) {
