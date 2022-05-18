@@ -22,26 +22,24 @@ public class SqlOperator {
         String createTableConnectionUrl = createConnectionUrl("MoneyManager");
         String createTableQuery = null;
         //HARDCODE TABLE CREATION INPUTS HERE
-        if ("BillTable".equals(tableName)) {
-
-        } else if ("TransactionTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser + tableName + " (transaction_id INTEGER,  description varchar(255), amount_in_or_out DECIMAL(255,2), date_paid DATETIME, category varchar(255), subcategory varchar(255), payment_account_id INTEGER, budget_id INTEGER, bill_id INTEGER);";
+        if ("TransactionTable".equals(tableName)) {
+            createTableQuery = "CREATE TABLE " + chosenUser + tableName + " (transaction_id INTEGER,  description varchar(255), amount_in_or_out DECIMAL(38,2), date_paid DATETIME, category varchar(255), subcategory varchar(255), payment_account_id INTEGER, budget_id INTEGER, bill_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("PaymentAccountTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (payment_account_id INTEGER, account_number INTEGER, account_name VARCHAR(255),  account_institution VARCHAR(255), account_type varchar(255), account_balance DECIMAL(255,2), account_due_date INTEGER, account_report_date INTEGER, account_closing_date INTEGER, payment_account_instance_id INTEGER);";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (payment_account_id INTEGER, account_number INTEGER, account_name VARCHAR(255),  account_institution VARCHAR(255), account_type varchar(255), account_balance DECIMAL(38,2), account_due_date INTEGER, account_report_date INTEGER, account_closing_date INTEGER, payment_account_instance_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("BillTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (bill_id INTEGER, due_date DATETIME, item_name VARCHAR(255),  amount_due DECIMAL(255,2), cash_or_card_payment varchar(255), payment_type_used VARCHAR(255), payment_status VARCHAR(255), bill_transaction_difference DECIMAL(255,2), transaction_id INTEGER, planned_payment_account_id INTEGER, used_payment_account_id INTEGER, date_paid DATETIME, bill_instance_id INTEGER);";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (bill_id INTEGER, due_date DATETIME, item_name VARCHAR(255),  amount_due DECIMAL(38,2), cash_or_card_payment varchar(255), payment_type_used VARCHAR(255), payment_status VARCHAR(255), bill_transaction_difference DECIMAL(38,2), transaction_id INTEGER, planned_payment_account_id INTEGER, used_payment_account_id INTEGER, date_paid DATETIME, bill_instance_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("BudgetTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (budget_id INTEGER, category VARCHAR(255), subcategory VARCHAR(255), limit DECIMAL(255,2), amount_used DECIMAL(255,2), amount_left DECIMAL(255,2), budget_start DATETIME, budget_end DATETIME,  budgeted_transaction_id_list VARCHAR(255), budget_instance_id INTEGER);";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (budget_id INTEGER, category VARCHAR(255), subcategory VARCHAR(255), limit DECIMAL(38,2), amount_used DECIMAL(38,2), amount_left DECIMAL(38,2), budget_start DATETIME, budget_end DATETIME,  budgeted_transaction_id_list VARCHAR(255), budget_instance_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("MasterTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (category varchar(255), subcategory varchar(255), description varchar(255), amount_in_or_out DECIMAL(255,2),date_paid DATETIME, payment_account_id INTEGER, account_name VARCHAR(255), account_type varchar(255), account_balance DECIMAL(255,2),budget_id INTEGER, budget_start DATETIME, budget_end DATETIME,amount_used DECIMAL(255,2), amount_left DECIMAL(255,2),  limit DECIMAL(255,2), master_table_id INTEGER);";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (category varchar(255), subcategory varchar(255), description varchar(255), amount_in_or_out DECIMAL(38,2),date_paid DATETIME, payment_account_id INTEGER, account_name VARCHAR(255), account_type varchar(255), account_balance DECIMAL(38,2),budget_id INTEGER, budget_start DATETIME, budget_end DATETIME,amount_used DECIMAL(38,2), amount_left DECIMAL(38,2),  limit DECIMAL(38,2), master_table_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
         }
 
@@ -188,6 +186,16 @@ public class SqlOperator {
             System.exit(0);
         }
         return false;
+    }
+
+    public boolean sendStatementToDatabaseNoEH(String sqlQuery,String connectionUrl) throws SQLException {
+        // try to connect to db
+        Connection conn = DriverManager.getConnection(connectionUrl);
+        Statement stmt = conn.createStatement();
+        // try to send statement to db
+        stmt.executeUpdate(sqlQuery);
+        logger.debug("statement " + sqlQuery + " successfully executed");
+        return true;
     }
 
     public void putUsernameInDatabase(String pickedUsername) {

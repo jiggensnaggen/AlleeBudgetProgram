@@ -12,8 +12,8 @@ public class Initializer {
     SqlOperator initializerSqlOperator= null;
     Logger logger = null;
     String dbName = "MoneyManager";
-    public Initializer(Logger logger) {
-        logger = logger;
+    public Initializer(Logger loggerFromAbove) {
+        logger = loggerFromAbove;
         initializerSqlOperator = new SqlOperator(logger);
     }
 
@@ -58,7 +58,9 @@ public class Initializer {
                 System.out.println("No usernames are present in the database. please create one (a-Z,1-0):");
                 pickedUsername = scanner.nextLine();
                 validation = validatePickedUsername(pickedUsername);
-                initializerSqlOperator.putUsernameInDatabase(pickedUsername);
+                if(validation == true){
+                    initializerSqlOperator.putUsernameInDatabase(pickedUsername);
+                }
             }
             return pickedUsername;
         }
@@ -69,7 +71,6 @@ public class Initializer {
                 System.out.println(usernames.toString());
                 pickedUsername = scanner.nextLine();
                 validation = validatePickedUsername(pickedUsername);
-                initializerSqlOperator.putUsernameInDatabase(pickedUsername);
             }
         }
         return pickedUsername;
@@ -86,7 +87,15 @@ public class Initializer {
 
     public boolean checkForPreviousRun(String chosenUser) {
         String checkForTransactionTableQuery = "SELECT * FROM " + chosenUser + "TransactionTable";
-        Boolean previousRun = initializerSqlOperator.sendStatementToDatabase(checkForTransactionTableQuery, initializerSqlOperator.createConnectionUrl(dbName));
+        Boolean previousRun = false;
+        try {
+            previousRun = initializerSqlOperator.sendStatementToDatabaseNoEH(checkForTransactionTableQuery, initializerSqlOperator.createConnectionUrl(dbName));
+        }
+        catch(Exception e){
+            logger.debug("no transaction table was found for " + chosenUser);
+            logger.debug(e.toString());
+            return false;
+        }
         return previousRun;
     }
     public void generateRequiredTables(String chosenUser) {
