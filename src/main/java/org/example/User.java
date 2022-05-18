@@ -2,6 +2,8 @@ package org.example;
 
 import org.apache.log4j.Logger;
 
+import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,7 +16,7 @@ public class User {
     }
 
     public void runMe() {
-        Integer selection = null;
+        Integer selection = 99999;
         Scanner userScanner = new Scanner(System.in);
         while(selection != 7) {
             selection = promptUserForSelection(userScanner);
@@ -38,13 +40,13 @@ public class User {
             selectionString = scanner.nextLine();
 
             //if invalid selction then return true to go again.
-            tryAgain = validateSelection(selectionString);
+            tryAgain = validateSelection(selectionString,scanner);
         }
         return Integer.getInteger(selectionString);
     }
 
-    public boolean validateSelection(String selection) {
-        Integer selectionInt = null;
+    public boolean validateSelection(String selection, Scanner userScanner) {
+        Integer selectionInt = 9999;
         try{
             selectionInt = Integer.getInteger(selection);
         }
@@ -54,7 +56,7 @@ public class User {
         }
         for(int x=0;x<7;x++){
             if (selectionInt != x) {
-                logger.warn("User did not enter a correct number selection when choosing an action. Re-promptin user");
+                logger.warn("User did not enter a correct number selection when choosing an action. Re-prompting user");
                 return false;
             }
         }
@@ -94,20 +96,29 @@ public class User {
             //repeat until user wants to stop
             boolean manualEntryStop = false;
             while (!manualEntryStop) {
-                List<String> manualBillInstance = promptUserForManualBillInstance();
+                List<String> manualBillInstance = promptUserForManualBillInstance(scanner);
                 if (manualBillInstance.get(0) != "stop123"){
                     addBillSqlOperator.pushManualDataToDatabase(manualBillInstance);
                 }
                 else{
                     manualEntryStop = true;
+                    logger.debug("user entered stop123 so the data entry phase ended.");
+                    System.out.println("Ending Bill data entry.");
                 }
             }
         }
-
     }
 
     public Integer askUserWhereFrom(Scanner scanner) {
-        return 0;
+        String selection = "999";
+        while (selection == "999"){
+            System.out.println("Would you like to add from a csv file or manually add instances? 0 or 1?");
+            selection = scanner.nextLine();
+            if (Integer.getInteger(selection) == 0 | Integer.getInteger(selection) == 1){
+
+            }
+        }
+        return Integer.getInteger(selection);
     }
 
     public String promptUserForCsvName(Scanner scanner) {
@@ -115,20 +126,34 @@ public class User {
         String csvNameString = null;
         while (tryAgain) {
             //ask the user for the csv name
-            System.out.println("");
+            System.out.println("Enter the name of the csv file here:");
             csvNameString = scanner.nextLine();
-            //if invalid selction then return true to go again.
+            //if invalid selection then return true to go again.
             tryAgain = validateCsvIsPresent(csvNameString);
         }
         return csvNameString;
     }
 
     private boolean validateCsvIsPresent(String csvNameString) {
-        return true;
+        File f = new File(csvNameString + ".csv");
+
+        // Checking if the specified file exists or not
+        if (f.exists()){
+            // Show if the file exists
+            logger.debug("Csv file entered by the user Exists");
+            return true;}
+        else{
+            // Show if the file does not exist
+            logger.debug("Csv file entered by the user does not Exist");
+            return false;
+        }
     }
 
-    public List<String> promptUserForManualBillInstance() {
+    public List<String> promptUserForManualBillInstance(Scanner scanner) {
         List<String> returner = null;
+        System.out.println("Please enter the following values separated with commas.Do not enter incorrect datatypes:Due Date, Bill Name, Amount Due, Cash or Card Payment, Planned Payment Account Name... or enter stop123 to stop.");
+        String billValuesRaw = scanner.nextLine();
+        List<String> billValuesListOfString = Arrays.asList(billValuesRaw.split(","));
         return returner;
     }
 

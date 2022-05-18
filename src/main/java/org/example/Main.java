@@ -10,7 +10,7 @@ public class Main {
         final Logger logger = Logger.getRootLogger();
         Initializer mainInitializer = new Initializer(logger);
         mainInitializer.runMe();
-//        User mainUser = new User();
-//        mainUser.runMe();
+        User mainUser = new User();
+        mainUser.runMe();
     }
 }

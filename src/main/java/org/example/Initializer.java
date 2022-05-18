@@ -35,7 +35,7 @@ public class Initializer {
             //crate a database for the corresponding username
             System.out.println("No usernames present.");
             //create username
-            createUsernameInstanceAndCorrespondingDatabase(initializerScanner);
+            createUsernameInstance(initializerScanner);
 
         }
         //
@@ -43,11 +43,10 @@ public class Initializer {
         return usernamesReturner;
     }
 
-    private void createUsernameInstanceAndCorrespondingDatabase(Scanner initializerScanner) throws SQLException, IOException {
+    private void createUsernameInstance(Scanner initializerScanner) throws SQLException, IOException {
         System.out.println("Please enter a username:");
         String username = initializerScanner.nextLine();
         initializerSqlOperator.addInstanceToUserTable(username);
-        initializerSqlOperator.generateUserDatabase(username);
     }
 
     public String pickUsername(List<String> usernames, Scanner scanner) throws SQLException, IOException {
@@ -92,6 +91,11 @@ public class Initializer {
             previousRun = initializerSqlOperator.sendStatementToDatabaseNoEH(checkForTransactionTableQuery, initializerSqlOperator.createConnectionUrl(dbName));
         }
         catch(Exception e){
+            String resultSetReturned = "com.microsoft.sqlserver.jdbc.SQLServerException: A result set was generated for update.";
+            if(e.toString().contains(resultSetReturned)){
+                logger.debug("statement " + checkForTransactionTableQuery + " successfully executed");
+                return true;
+            }
             logger.debug("no transaction table was found for " + chosenUser);
             logger.debug(e.toString());
             return false;
