@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class Initializer {
     SqlOperator initializerSqlOperator= null;
     Logger logger = null;
+    String dbName = "MoneyManager";
     public Initializer(Logger logger) {
         logger = logger;
         initializerSqlOperator = new SqlOperator(logger);
@@ -84,8 +85,9 @@ public class Initializer {
     }
 
     public boolean checkForPreviousRun(String chosenUser) {
-
-        return false;
+        String checkForTransactionTableQuery = "SELECT * FROM " + chosenUser + "TransactionTable";
+        Boolean previousRun = initializerSqlOperator.sendStatementToDatabase(checkForTransactionTableQuery, initializerSqlOperator.createConnectionUrl(dbName));
+        return previousRun;
     }
     public void generateRequiredTables(String chosenUser) {
         generateBillTable(chosenUser);

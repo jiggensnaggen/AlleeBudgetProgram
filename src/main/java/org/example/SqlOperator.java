@@ -47,7 +47,7 @@ public class SqlOperator {
 
     }
 
-    private String createConnectionUrl(String databaseName) {
+    public String createConnectionUrl(String databaseName) {
         String connectionUrl =
                 "jdbc:sqlserver://localhost;"
                         + "databaseName="+ databaseName +";" +
@@ -95,7 +95,6 @@ public class SqlOperator {
         String userNameChecker = "Select * from usernames;";
         String connectionUrl = createConnectionUrl(dbName);
         Boolean usernamePresent = sendStatementToDatabase(userNameChecker,connectionUrl);
-        System.out.println(usernamePresent);
         return usernamePresent;
     }
 
