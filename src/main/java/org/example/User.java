@@ -21,6 +21,7 @@ public class User {
         while(selection != 7) {
             selection = promptUserForSelection(userScanner);
             makeSelection(selection, userScanner);
+
         }
     }
 
@@ -40,27 +41,27 @@ public class User {
             selectionString = scanner.nextLine();
 
             //if invalid selction then return true to go again.
-            tryAgain = validateSelection(selectionString,scanner);
+            tryAgain = validateSelection(selectionString);
         }
-        return Integer.getInteger(selectionString);
+        return Integer.valueOf(selectionString);
     }
 
-    public boolean validateSelection(String selection, Scanner userScanner) {
+    public boolean validateSelection(String selection) {
         Integer selectionInt = 9999;
         try{
-            selectionInt = Integer.getInteger(selection);
+            selectionInt = Integer.valueOf(selection);
         }
         catch(Exception e){
             logger.warn("User did not enter a number selection when choosing an action. Re-prompting user");
             return false;
         }
-        for(int x=0;x<7;x++){
-            if (selectionInt != x) {
-                logger.warn("User did not enter a correct number selection when choosing an action. Re-prompting user");
-                return false;
+        Boolean validation = true;
+        for(int x=1;x<=7;x++){
+            if (selectionInt == x) {
+                validation = false;
             }
         }
-        return true;
+        return validation;
     }
 
     public Boolean makeSelection(Integer selection, Scanner scanner){
@@ -78,7 +79,9 @@ public class User {
                 break;
             case 6: generateReport(scanner);
                 break;
-            case 7: return false;
+            case 7: System.out.println("Ending Program. Goodbye.");
+                System.exit(0);
+                return false;
         }
 
         return true;
