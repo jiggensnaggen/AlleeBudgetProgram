@@ -56,10 +56,13 @@ public class SqlOperator {
         return connectionUrl;
     }
 
-    public void pushManualDataToDatabase(List<String> manualBillInstance) {
+    public void pushManualDataToDatabase(List<String> manualBillInstance, String username) {
+        String billQuery = "INSERT INTO " + username + "BillTable VALUES ('" + manualBillInstance.get(0) + "','" +manualBillInstance.get(1) + "','" +manualBillInstance.get(2) + "','" +manualBillInstance.get(3) + "','" +manualBillInstance.get(4) + "');";
+        sendStatementToDatabase(billQuery,createConnectionUrl(dbName));
     }
 
     public void pushCsvDataToDatabase(String csvName) {
+
     }
 
     public void addInstanceToUserTable(String username) throws SQLException, IOException {

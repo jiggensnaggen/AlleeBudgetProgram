@@ -9,8 +9,8 @@ public class Main {
     public static void main(String[] args) throws SQLException, IOException {
         final Logger logger = Logger.getRootLogger();
         Initializer mainInitializer = new Initializer(logger);
-        mainInitializer.runMe();
+        String username = mainInitializer.runMe();
         User mainUser = new User();
-        mainUser.runMe();
+        mainUser.runMe(username);
     }
 }

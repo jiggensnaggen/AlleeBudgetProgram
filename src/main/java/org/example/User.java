@@ -15,12 +15,12 @@ public class User {
         
     }
 
-    public void runMe() {
+    public void runMe(String username) {
         Integer selection = 99999;
         Scanner userScanner = new Scanner(System.in);
         while(selection != 7) {
             selection = promptUserForSelection(userScanner);
-            makeSelection(selection, userScanner);
+            makeSelection(selection, userScanner, username);
 
         }
     }
@@ -64,10 +64,10 @@ public class User {
         return validation;
     }
 
-    public Boolean makeSelection(Integer selection, Scanner scanner){
+    public Boolean makeSelection(Integer selection, Scanner scanner, String username){
         //switch case statement here to decode the selection into the correct function
         switch (selection) {
-            case 1: addBill(scanner);
+            case 1: addBill(scanner,username);
                 break;
             case 2: addPaymentAccount(scanner);
                 break;
@@ -87,7 +87,7 @@ public class User {
         return true;
     }
 
-    public void addBill(Scanner scanner) {
+    public void addBill(Scanner scanner,String username) {
         //have the user pick a csv file or manually enter the data
         Integer fromSwitch = askUserWhereFrom(scanner);
         SqlOperator addBillSqlOperator = new SqlOperator(logger);
@@ -101,7 +101,7 @@ public class User {
             while (!manualEntryStop) {
                 List<String> manualBillInstance = promptUserForManualBillInstance(scanner);
                 if (manualBillInstance.get(0) != "stop123"){
-                    addBillSqlOperator.pushManualDataToDatabase(manualBillInstance);
+                    addBillSqlOperator.pushManualDataToDatabase(manualBillInstance,username);
                 }
                 else{
                     manualEntryStop = true;

@@ -17,13 +17,14 @@ public class Initializer {
         initializerSqlOperator = new SqlOperator(logger);
     }
 
-    public void runMe() throws SQLException, IOException {
+    public String runMe() throws SQLException, IOException {
         Scanner initializerScanner = new Scanner(System.in);
         List<String> usernames = grabUsernames(initializerScanner);
         String chosenUser = pickUsername(usernames,initializerScanner);
         if(!checkForPreviousRun(chosenUser)){
             generateRequiredTables(chosenUser);
         }
+        return chosenUser;
     }
     public List<String> grabUsernames(Scanner initializerScanner) throws SQLException, IOException {
         // if the username db and table are present then skip creation
