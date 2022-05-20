@@ -31,7 +31,7 @@ public class SqlOperator {
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("BillTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (bill_id INTEGER, due_date DATETIME, item_name VARCHAR(255),  amount_due DECIMAL(38,2), cash_or_card_payment varchar(255), payment_type_used VARCHAR(255), payment_status VARCHAR(255), bill_transaction_difference DECIMAL(38,2), transaction_id INTEGER, planned_payment_account_id INTEGER, used_payment_account_id INTEGER, date_paid DATETIME, bill_instance_id INTEGER);";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (bill_id INTEGER, due_date DATETIME, item_name VARCHAR(255),  amount_due DECIMAL(38,2), credit_or_debit_payment varchar(255), payment_type_used VARCHAR(255), payment_status VARCHAR(255), bill_transaction_difference DECIMAL(38,2), transaction_id INTEGER, planned_payment_account_id INTEGER, used_payment_account_id INTEGER, date_paid DATETIME, bill_instance_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("BudgetTable".equals(tableName)) {

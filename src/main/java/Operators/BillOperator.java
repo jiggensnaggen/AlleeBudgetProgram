@@ -41,7 +41,7 @@ public class BillOperator extends Operator {
 
     public List<String> promptUserForManualBillInstance(Scanner scanner) {
         System.out.println("Please enter the following values separated with commas.Do not enter incorrect data types:";
-        System.out.println("Due Date, Bill Name, Amount Due, Cash or Card Payment, Planned Payment Account Name... or enter stop123 to stop.");
+        System.out.println("Due Date, Bill Name, Amount Due, Credit or Debit Payment, Planned Payment Account Name... or enter stop123 to stop.");
         String billValuesRaw = scanner.nextLine();
         Boolean checked = false;
         while(checked == false){
@@ -59,6 +59,8 @@ public class BillOperator extends Operator {
         if(x[0].matches("[0-9]+") & x[1].matches("[a-zA-z]+") & x[2].matches("^\\$(0|[1-9][0-9]{0,2})(,\\d{3})*(\\.\\d{1,2})?$") & x[3].matches("(cash|card)") & x[4].matches("[a-zA-z]+")){
             return true;
         }
-        else
+        else{
+            return false;
+        }
     }
 }
