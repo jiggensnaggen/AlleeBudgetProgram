@@ -11,6 +11,6 @@ public class Main {
         Initializer mainInitializer = new Initializer(logger);
         String username = mainInitializer.runMe();
         User mainUser = new User();
-        mainUser.runMe(username);
+        mainUser.runMe(logger,username);
     }
 }

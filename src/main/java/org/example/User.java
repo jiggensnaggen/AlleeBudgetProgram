@@ -1,5 +1,6 @@
 package org.example;
 
+import Operators.*;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -15,12 +16,12 @@ public class User {
         
     }
 
-    public void runMe(String username) {
+    public void runMe(Logger logger, String username) {
         Integer selection = 99999;
         Scanner userScanner = new Scanner(System.in);
         while(selection != 7) {
             selection = promptUserForSelection(userScanner);
-            makeSelection(selection, userScanner, username);
+            makeSelection(selection, userScanner, username, logger);
 
         }
     }
@@ -64,20 +65,26 @@ public class User {
         return validation;
     }
 
-    public Boolean makeSelection(Integer selection, Scanner scanner, String username){
+    public Boolean makeSelection(Integer selection, Scanner scanner, String username, Logger logger){
         //switch case statement here to decode the selection into the correct function
         switch (selection) {
-            case 1: addBill(scanner,username);
+            case 1: BillOperator MyBillOperator = new BillOperator(logger);
+                    MyBillOperator.addBill(scanner,username);
                 break;
-            case 2: addPaymentAccount(scanner);
+            case 2: PaymentAccountOperator myPaymentAccountOperator = new PaymentAccountOperator(logger);
+                    myPaymentAccountOperator.addPaymentAccount(scanner, username);
                 break;
-            case 3: addBudget(scanner);
+            case 3: BudgetOperator myBudgetOperator = new BudgetOperator(logger);
+                    myBudgetOperator.addBudget(scanner, username);
                 break;
-            case 4: addTransaction(scanner);
+            case 4: TransactionOperator MyTransactionOperator = new TransactionOperator(logger);
+                    MyTransactionOperator.addTransaction(scanner, username);
                 break;
-            case 5: generateWhatIf(scanner);
+            case 5: GenerateWhatIfOperator myGenerateWhatIfOperator = new GenerateWhatIfOperator(logger);
+                    myGenerateWhatIfOperator.generateWhatIf(scanner, username);
                 break;
-            case 6: generateReport(scanner);
+            case 6: GenerateReportOperator myGenerateReportOperator = new GenerateReportOperator(logger);
+                    myGenerateReportOperator.generateReport(scanner, username);
                 break;
             case 7: System.out.println("Ending Program. Goodbye.");
                 System.exit(0);
@@ -87,78 +94,12 @@ public class User {
         return true;
     }
 
-    public void addBill(Scanner scanner,String username) {
-        //have the user pick a csv file or manually enter the data
-        Integer fromSwitch = askUserWhereFrom(scanner);
-        SqlOperator addBillSqlOperator = new SqlOperator(logger);
-        if (fromSwitch == 0){
-            String csvName = promptUserForCsvName(scanner);
-            addBillSqlOperator.pushCsvDataToDatabase(csvName);
-        }
-        else {
-            //repeat until user wants to stop
-            boolean manualEntryStop = false;
-            while (!manualEntryStop) {
-                List<String> manualBillInstance = promptUserForManualBillInstance(scanner);
-                if (manualBillInstance.get(0) != "stop123"){
-                    addBillSqlOperator.pushManualDataToDatabase(manualBillInstance,username);
-                }
-                else{
-                    manualEntryStop = true;
-                    logger.debug("user entered stop123 so the data entry phase ended.");
-                    System.out.println("Ending Bill data entry.");
-                }
-            }
-        }
-    }
 
-    public Integer askUserWhereFrom(Scanner scanner) {
-        String selection = "999";
-        while (selection == "999"){
-            System.out.println("Would you like to add from a csv file or manually add instances? 0 or 1?");
-            selection = scanner.nextLine();
-            if (Integer.getInteger(selection) == 0 | Integer.getInteger(selection) == 1){
 
-            }
-        }
-        return Integer.getInteger(selection);
-    }
 
-    public String promptUserForCsvName(Scanner scanner) {
-        boolean tryAgain = true;
-        String csvNameString = null;
-        while (tryAgain) {
-            //ask the user for the csv name
-            System.out.println("Enter the name of the csv file here:");
-            csvNameString = scanner.nextLine();
-            //if invalid selection then return true to go again.
-            tryAgain = validateCsvIsPresent(csvNameString);
-        }
-        return csvNameString;
-    }
 
-    private boolean validateCsvIsPresent(String csvNameString) {
-        File f = new File(csvNameString + ".csv");
 
-        // Checking if the specified file exists or not
-        if (f.exists()){
-            // Show if the file exists
-            logger.debug("Csv file entered by the user Exists");
-            return true;}
-        else{
-            // Show if the file does not exist
-            logger.debug("Csv file entered by the user does not Exist");
-            return false;
-        }
-    }
 
-    public List<String> promptUserForManualBillInstance(Scanner scanner) {
-        List<String> returner = null;
-        System.out.println("Please enter the following values separated with commas.Do not enter incorrect datatypes:Due Date, Bill Name, Amount Due, Cash or Card Payment, Planned Payment Account Name... or enter stop123 to stop.");
-        String billValuesRaw = scanner.nextLine();
-        List<String> billValuesListOfString = Arrays.asList(billValuesRaw.split(","));
-        return returner;
-    }
 
     public void addPaymentAccount(Scanner scanner) {
     }
