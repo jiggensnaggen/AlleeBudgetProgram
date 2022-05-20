@@ -54,7 +54,7 @@ public class BillOperator extends Operator {
         return billValuesListOfString;
     }
 
-    private Boolean validateManualBillInput(String billValuesRaw) {
+    public Boolean validateManualBillInput(String billValuesRaw) {
         String[] x = billValuesRaw.split(",");
         if(x[0].matches("[0-9]+") & x[1].matches("[a-zA-z]+") & x[2].matches("^\\$(0|[1-9][0-9]{0,2})(,\\d{3})*(\\.\\d{1,2})?$") & x[3].matches("(cash|card)") & x[4].matches("[a-zA-z]+")){
             return true;
