@@ -40,9 +40,10 @@ public class BillOperator extends Operator {
 
 
     public List<String> promptUserForManualBillInstance(Scanner scanner) {
-        System.out.println("Please enter the following values separated with commas.Do not enter incorrect data types:";
+        System.out.println("Please enter the following values separated with commas.Do not enter incorrect data types:");
         System.out.println("Due Date, Bill Name, Amount Due, Credit or Debit Payment, Planned Payment Account Name... or enter stop123 to stop.");
         String billValuesRaw = scanner.nextLine();
+        billValuesRaw = billValuesRaw.replace(", ",",");
         Boolean checked = false;
         while(checked == false){
             checked = validateManualBillInput(billValuesRaw);
@@ -55,12 +56,34 @@ public class BillOperator extends Operator {
     }
 
     public Boolean validateManualBillInput(String billValuesRaw) {
+        billValuesRaw = billValuesRaw.replace(" ", "");
         String[] x = billValuesRaw.split(",");
-        if(x[0].matches("[0-9]+") & x[1].matches("[a-zA-z]+") & x[2].matches("^\\$(0|[1-9][0-9]{0,2})(,\\d{3})*(\\.\\d{1,2})?$") & x[3].matches("(cash|card)") & x[4].matches("[a-zA-z]+")){
-            return true;
-        }
-        else{
+        if (x.length != 5){
+            logger.debug("user entered too many commas.");
             return false;
         }
+        if(Integer.valueOf(x[0]) > 31){
+            logger.debug("user entered a due date greater than 31.");
+            return false;
+        }
+        Boolean returner = false;
+        returner = x[0].matches("[0-9]+");
+        if(returner == false){
+            return returner;
+        }
+        returner = x[1].matches("[a-zA-z]+");
+        if(returner == false){
+            return returner;
+        }
+        returner = x[2].matches("[+-]?([0-9]*[.])?[0-9]+");
+        if(returner == false){
+            return returner;
+        }
+        returner = x[3].matches("(cash|card)");
+        if(returner == false){
+            return returner;
+        }
+        returner = x[4].matches("[a-zA-z]+");
+        return returner;
     }
 }
