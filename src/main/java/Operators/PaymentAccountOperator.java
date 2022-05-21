@@ -21,7 +21,7 @@ public class PaymentAccountOperator extends Operator{
             Boolean outcomeOfCsvPush = false;
             while (outcomeOfCsvPush == false) {
                 csvName = promptUserForCsvName(scanner);
-                outcomeOfCsvPush = addBillSqlOperator.pushCsvDataToDatabase(csvName, username, "BillTable");
+                outcomeOfCsvPush = addBillSqlOperator.pushCsvDataToDatabase(csvName, username, "PaymentAccountTable");
             }
         }
         else {
@@ -35,7 +35,7 @@ public class PaymentAccountOperator extends Operator{
                 else{
                     manualEntryStop = true;
                     logger.debug("user entered stop123 so the data entry phase ended.");
-                    System.out.println("Ending Bill data entry.");
+                    System.out.println("Ending Payment Account data entry.");
                 }
             }
         }
@@ -59,6 +59,66 @@ public class PaymentAccountOperator extends Operator{
         return billValuesListOfString;
     }
 
-    private Boolean validateManualPaymentAccountInput(String billValuesRaw) {
+    private Boolean validateManualPaymentAccountInput(String paymentAccountValuesRaw) {
+        paymentAccountValuesRaw = paymentAccountValuesRaw.replace(" ", "");
+        String[] x = paymentAccountValuesRaw.split(",");
+        if (x.length != 10){
+            logger.debug("user entered too many commas.");
+            return false;
+        }
+///start here
+        Boolean returner = false;
+        //payment_account_id
+        returner = x[0].matches("[0-9]+");
+        if(returner == false){
+            return returner;
+        }
+        //account number
+        returner = x[1].matches("[0-9]+");
+        if(returner == false){
+            return returner;
+        }
+        //account_name
+        returner = x[2].matches("[a-zA-z0-9]+");
+        if(returner == false){
+            return returner;
+        }
+        //,  account_institution,
+        returner = x[3].matches("[a-zA-z]+");
+        if(returner == false){
+            return returner;
+        }
+        // account_type
+        returner = x[4].matches("[debit|credit]+");
+        if(returner == false){
+            return returner;
+        }
+
+
+        //account_balance
+        returner = x[4].matches("[+-]?([0-9]*[.])?[0-9]+");
+        if(returner == false){
+            return returner;
+        }
+        //account_due_date
+        returner = x[4].matches("[0-9]+");
+        if(returner == false){
+            return returner;
+        }
+        //account_report_date
+        returner = x[4].matches("[0-9]+");
+        if(returner == false){
+            return returner;
+        }
+        //account_closing_date
+        returner = x[4].matches("[0-9]+");
+        if(returner == false){
+            return returner;
+        }
+        //payment_account_instance_id
+        returner = x[4].matches("[0-9]+");
+        if(returner == false){
+            return returner;
+        }
     }
 }
