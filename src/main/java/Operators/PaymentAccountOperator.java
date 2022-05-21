@@ -96,29 +96,28 @@ public class PaymentAccountOperator extends Operator{
 
 
         //account_balance
-        returner = x[4].matches("[+-]?([0-9]*[.])?[0-9]+");
+        returner = x[5].matches("[+-]?([0-9]*[.])?[0-9]+");
         if(returner == false){
             return returner;
         }
         //account_due_date
-        returner = x[4].matches("[0-9]+");
+        returner = x[6].matches("[0-9]+");
         if(returner == false){
             return returner;
         }
         //account_report_date
-        returner = x[4].matches("[0-9]+");
+        returner = x[7].matches("[0-9]+");
         if(returner == false){
             return returner;
         }
         //account_closing_date
-        returner = x[4].matches("[0-9]+");
+        returner = x[8].matches("[0-9]+");
         if(returner == false){
             return returner;
         }
         //payment_account_instance_id
-        returner = x[4].matches("[0-9]+");
-        if(returner == false){
-            return returner;
-        }
+        returner = x[9].matches("[0-9]+");
+        return returner;
+
     }
 }
