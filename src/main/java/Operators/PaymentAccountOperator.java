@@ -59,14 +59,13 @@ public class PaymentAccountOperator extends Operator{
         return billValuesListOfString;
     }
 
-    private Boolean validateManualPaymentAccountInput(String paymentAccountValuesRaw) {
+    public Boolean validateManualPaymentAccountInput(String paymentAccountValuesRaw) {
         paymentAccountValuesRaw = paymentAccountValuesRaw.replace(" ", "");
         String[] x = paymentAccountValuesRaw.split(",");
         if (x.length != 10){
             logger.debug("user entered too many commas.");
             return false;
         }
-///start here
         Boolean returner = false;
         //payment_account_id
         returner = x[0].matches("[0-9]+");
@@ -93,7 +92,6 @@ public class PaymentAccountOperator extends Operator{
         if(returner == false){
             return returner;
         }
-
 
         //account_balance
         returner = x[5].matches("[+-]?([0-9]*[.])?[0-9]+");
