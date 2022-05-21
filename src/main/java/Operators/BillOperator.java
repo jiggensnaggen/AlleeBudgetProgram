@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class BillOperator extends Operator {
-    public BillOperator(Logger logger) {
-        super(logger);
+    public BillOperator(Logger logger, String usernameFromAbove) {
+        super(logger, usernameFromAbove);
     }
 
     public void addBill(Scanner scanner, String username) {
@@ -17,8 +17,12 @@ public class BillOperator extends Operator {
         Integer fromSwitch = this.askUserWhereFrom(scanner);
         SqlOperator addBillSqlOperator = new SqlOperator(logger);
         if (fromSwitch == 0){
-            String csvName = promptUserForCsvName(scanner);
-            addBillSqlOperator.pushCsvDataToDatabase(csvName);
+            String csvName  = "";
+            Boolean outcomeOfCsvPush = false;
+            while (outcomeOfCsvPush == false) {
+                csvName = promptUserForCsvName(scanner);
+                outcomeOfCsvPush = addBillSqlOperator.pushCsvDataToDatabase(csvName, username, "BillTable");
+            }
         }
         else {
             //repeat until user wants to stop

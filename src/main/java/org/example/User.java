@@ -68,10 +68,10 @@ public class User {
     public Boolean makeSelection(Integer selection, Scanner scanner, String username, Logger logger){
         //switch case statement here to decode the selection into the correct function
         switch (selection) {
-            case 1: BillOperator MyBillOperator = new BillOperator(logger);
+            case 1: BillOperator MyBillOperator = new BillOperator(logger, username);
                     MyBillOperator.addBill(scanner,username);
                 break;
-            case 2: PaymentAccountOperator myPaymentAccountOperator = new PaymentAccountOperator(logger);
+            case 2: PaymentAccountOperator myPaymentAccountOperator = new PaymentAccountOperator(logger, username);
                     myPaymentAccountOperator.addPaymentAccount(scanner, username);
                 break;
             case 3: BudgetOperator myBudgetOperator = new BudgetOperator(logger);

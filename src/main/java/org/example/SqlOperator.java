@@ -61,8 +61,27 @@ public class SqlOperator {
         sendStatementToDatabase(billQuery,createConnectionUrl(dbName));
     }
 
-    public void pushCsvDataToDatabase(String csvName) {
-
+    public Boolean pushCsvDataToDatabase(String csvName, String username, String tableName) {
+        String csvQuery = "BULK INSERT " + username + tableName +  "\n" +
+                "FROM 'C:\\budgetingSourceData\\"+ csvName +".csv'\n" +
+                "WITH\n" +
+                "(\n" +
+                "    FIRSTROW = 2, -- as 1st one is header\n" +
+                "    FIELDTERMINATOR = ',',  --CSV field delimiter\n" +
+                "    ROWTERMINATOR = '\\n',   --Use to shift the control to next row\n" +
+                "    TABLOCK\n" +
+                ")";
+        try{
+            sendStatementToDatabase(csvQuery,createConnectionUrl(dbName));
+            logger.debug("csv data pushed to database table " + username + tableName + " was successful.");
+            return true;
+        }
+        catch(Exception e){
+            logger.debug("failed to push csv data to database table " + username + tableName + ".");
+            System.out.println("failed to push csv data to the "+ username + tableName + "table. Please check your data and try again.");
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void addInstanceToUserTable(String username) throws SQLException, IOException {
@@ -75,8 +94,6 @@ public class SqlOperator {
         String addInstanceQuery = "INSERT INTO usernames(username, user_id) VALUES ('" + username + "', '" + nextId + "');";
     }
 
-    public void generateUserDatabase(String username) {
-    }
 
     public void createUsernameDatabaseAndTable() {
         String createUsernamesTable = "CREATE TABLE usernames (username VARCHAR(255), user_id INTEGER);";

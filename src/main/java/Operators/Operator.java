@@ -7,9 +7,11 @@ import java.util.Scanner;
 
 public class Operator {
     Logger logger;
+    String username;
 
-    public Operator(Logger loggerFromAbove){
+    public Operator(Logger loggerFromAbove,String usernameFromAbove){
         logger = loggerFromAbove;
+        username = usernameFromAbove;
     }
     public Integer askUserWhereFrom(Scanner scanner) {
         String selection = "999";
