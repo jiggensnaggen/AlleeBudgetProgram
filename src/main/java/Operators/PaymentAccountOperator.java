@@ -1,8 +1,6 @@
 package Operators;
 import org.apache.logging.log4j.core.Logger;
 
-import org.example.SqlOperator;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -15,22 +13,22 @@ public class PaymentAccountOperator extends Operator{
     public void addPaymentAccount(Scanner scanner, String username) {
         //have the user pick a csv file or manually enter the data
         Integer fromSwitch = this.askUserWhereFrom(scanner);
-        SqlOperator addBillSqlOperator = new SqlOperator(this.logger);
+        SqlOperator addPaymentAccountSqlOperator = new SqlOperator(this.logger);
         if (fromSwitch == 0){
             String csvName  = "";
             Boolean outcomeOfCsvPush = false;
             while (outcomeOfCsvPush == false) {
                 csvName = promptUserForCsvName(scanner);
-                outcomeOfCsvPush = addBillSqlOperator.pushCsvDataToDatabase(csvName, username, "PaymentAccountTable");
+                outcomeOfCsvPush = addPaymentAccountSqlOperator.pushCsvDataToDatabase(csvName, username, "PaymentAccountTable");
             }
         }
         else {
             //repeat until user wants to stop
             boolean manualEntryStop = false;
             while (!manualEntryStop) {
-                List<String> manualBillInstance = promptUserForManualPaymentAccountInstance(scanner);
-                if (manualBillInstance.get(0) != "stop123"){
-                    addBillSqlOperator.pushManualDataToDatabase(manualBillInstance,username);
+                List<String> manualPaymentAccountInstance = promptUserForManualPaymentAccountInstance(scanner);
+                if (manualPaymentAccountInstance.get(0) != "stop123"){
+                    addPaymentAccountSqlOperator.pushManualDataToDatabase(manualPaymentAccountInstance,username);
                 }
                 else{
                     manualEntryStop = true;
@@ -62,6 +60,9 @@ public class PaymentAccountOperator extends Operator{
     public Boolean validateManualPaymentAccountInput(String paymentAccountValuesRaw) {
         paymentAccountValuesRaw = paymentAccountValuesRaw.replace(" ", "");
         String[] x = paymentAccountValuesRaw.split(",");
+        if (x[0] == "stop123"){
+            return true;
+        }
         if (x.length != 10){
             logger.debug("user entered too many commas.");
             return false;

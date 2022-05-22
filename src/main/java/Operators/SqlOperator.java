@@ -1,4 +1,4 @@
-package org.example;
+package Operators;
 import org.apache.logging.log4j.core.*;
 import org.apache.logging.log4j.core.Logger;
 import tech.tablesaw.api.Row;
@@ -56,9 +56,14 @@ public class SqlOperator {
         return connectionUrl;
     }
 
-    public void pushManualDataToDatabase(List<String> manualBillInstance, String username) {
-        String billQuery = "INSERT INTO " + username + "BillTable VALUES ('" + manualBillInstance.get(0) + "','" +manualBillInstance.get(1) + "','" +manualBillInstance.get(2) + "','" +manualBillInstance.get(3) + "','" +manualBillInstance.get(4) + "');";
-        sendStatementToDatabase(billQuery,createConnectionUrl(dbName));
+    public void pushManualDataToDatabase(List<String> manualInstance, String username) {
+        String query = "INSERT INTO " + username + "BillTable VALUES ('" + manualInstance.get(0);
+        for(int x = 1; x < manualInstance.size();x++){
+            query +=  "','" +manualInstance.get(x) ;
+
+        }
+        query += "');";
+        sendStatementToDatabase(query,createConnectionUrl(dbName));
     }
 
     public Boolean pushCsvDataToDatabase(String csvName, String username, String tableName) {

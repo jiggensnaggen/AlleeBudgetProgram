@@ -60,7 +60,7 @@ class BillOperatorTest {
         assertEquals(expected,result);
     }
 
-    @Test
+    //@Test
     public void testPromptUserForManualBillInstance() throws SQLException, IOException {
         Scanner testScanner = new Scanner(System.in);
         String[] passingBillInput = {"1", "carls jr", "24.86", "card", "navy fed main"};

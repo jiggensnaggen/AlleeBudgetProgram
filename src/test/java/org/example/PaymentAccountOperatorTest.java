@@ -26,7 +26,27 @@ public class PaymentAccountOperatorTest {
 
     @Test
     public void testValidateManualPaymentAccountInputGood(){
-        String paymentAccountValuesTestGood = "5, 462, Boa Cash Rewards, Bank of American, credit, -1131, 2, 5, 5, 0";
+        String paymentAccountValuesTestGood = "5, 462, Boa Cash Rewards, Bank of America, credit, -1131, 2, 5, 5, 0";
+        Boolean result = testPaymentAccountOperator.validateManualPaymentAccountInput(paymentAccountValuesTestGood);
+        assertEquals(result,true);
+    }
+
+    @Test
+    public void testValidateManualPaymentAccountInputExtraComma(){
+        String paymentAccountValuesTestGood = "5, 462, Boa Cash, Rewards, Bank of America, credit, -1131, 2, 5, 5, 0";
+        Boolean result = testPaymentAccountOperator.validateManualPaymentAccountInput(paymentAccountValuesTestGood);
+        assertEquals(result,false);
+    }
+    @Test
+    public void testValidateManualPaymentAccountInputIntWhereStringShouldBe(){
+        String paymentAccountValuesTestGood = "5, 462, Boa Cash Rewards, 2, credit, -1131, 2, 5, 5, 0";
+        Boolean result = testPaymentAccountOperator.validateManualPaymentAccountInput(paymentAccountValuesTestGood);
+        assertEquals(result,false);
+    }
+
+    @Test
+    public void testValidateManualPaymentAccountInputStop123(){
+        String paymentAccountValuesTestGood = "stop123";
         Boolean result = testPaymentAccountOperator.validateManualPaymentAccountInput(paymentAccountValuesTestGood);
         assertEquals(result,true);
     }

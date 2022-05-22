@@ -1,6 +1,7 @@
 package org.example;
 
 
+import Operators.SqlOperator;
 import org.apache.logging.log4j.core.*;
 
 import java.io.IOException;

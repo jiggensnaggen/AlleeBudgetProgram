@@ -2,8 +2,6 @@ package Operators;
 
 import org.apache.logging.log4j.core.*;
 
-import org.example.SqlOperator;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -64,6 +62,9 @@ public class BillOperator extends Operator {
         billValuesRaw = billValuesRaw.replace(" ", "");
         String[] x = billValuesRaw.split(",");
         try {
+            if (x[0] == "stop123"){
+                return true;
+            }
             if (x.length != 5) {
                 logger.debug("user entered too many commas.");
                 return false;
