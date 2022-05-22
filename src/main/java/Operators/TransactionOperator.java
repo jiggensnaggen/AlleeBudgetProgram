@@ -8,6 +8,11 @@ public class TransactionOperator extends Operator{
         super(logger, username);
     }
 
+    @Override
+    public Boolean validateManualInput(String valuesRaw) {
+        return null;
+    }
+
     public static void addTransaction(Scanner scanner, String username) {
     }
 }

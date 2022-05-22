@@ -48,7 +48,7 @@ public class PaymentAccountOperator extends Operator{
         billValuesRaw = billValuesRaw.replace(", ",",");
         Boolean checked = false;
         while(checked == false){
-            checked = validateManualPaymentAccountInput(billValuesRaw);
+            checked = validateManualInput(billValuesRaw);
             if (checked == false){
                 promptUserForManualPaymentAccountInstance(scanner);
             }
@@ -57,7 +57,7 @@ public class PaymentAccountOperator extends Operator{
         return billValuesListOfString;
     }
 
-    public Boolean validateManualPaymentAccountInput(String paymentAccountValuesRaw) {
+    public Boolean validateManualInput(String paymentAccountValuesRaw) {
         paymentAccountValuesRaw = paymentAccountValuesRaw.replace(" ", "");
         String[] x = paymentAccountValuesRaw.split(",");
         if (x[0] == "stop123"){
