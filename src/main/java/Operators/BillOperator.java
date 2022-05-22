@@ -63,32 +63,39 @@ public class BillOperator extends Operator {
     public Boolean validateManualBillInput(String billValuesRaw) {
         billValuesRaw = billValuesRaw.replace(" ", "");
         String[] x = billValuesRaw.split(",");
-        if (x.length != 5){
-            logger.debug("user entered too many commas.");
+        try {
+            if (x.length != 5) {
+                logger.debug("user entered too many commas.");
+                return false;
+            }
+            if (Integer.valueOf(x[0]) > 31) {
+                logger.debug("user entered a due date greater than 31.");
+                return false;
+            }
+            Boolean returner = false;
+            returner = x[0].matches("[0-9]+");
+            if (returner == false) {
+                return returner;
+            }
+            returner = x[1].matches("[a-zA-z]+");
+            if (returner == false) {
+                return returner;
+            }
+            returner = x[2].matches("[+-]?([0-9]*[.])?[0-9]+");
+            if (returner == false) {
+                return returner;
+            }
+            returner = x[3].matches("(cash|card)");
+            if (returner == false) {
+                return returner;
+            }
+            returner = x[4].matches("[a-zA-z]+");
+            return returner;
+        }
+        catch(Exception e){
+            logger.debug("user input for bill is incorrect.");
+            logger.debug(e.toString());
             return false;
         }
-        if(Integer.valueOf(x[0]) > 31){
-            logger.debug("user entered a due date greater than 31.");
-            return false;
-        }
-        Boolean returner = false;
-        returner = x[0].matches("[0-9]+");
-        if(returner == false){
-            return returner;
-        }
-        returner = x[1].matches("[a-zA-z]+");
-        if(returner == false){
-            return returner;
-        }
-        returner = x[2].matches("[+-]?([0-9]*[.])?[0-9]+");
-        if(returner == false){
-            return returner;
-        }
-        returner = x[3].matches("(cash|card)");
-        if(returner == false){
-            return returner;
-        }
-        returner = x[4].matches("[a-zA-z]+");
-        return returner;
     }
 }

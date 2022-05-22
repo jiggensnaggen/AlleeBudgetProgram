@@ -13,6 +13,7 @@ public class User {
 
     private static final Logger logger = (Logger) LogManager.getLogger(User.class);
 
+
     public User() {
         
     }
