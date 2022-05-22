@@ -2,14 +2,15 @@ package org.example;
 
 import Operators.BillOperator;
 import Operators.PaymentAccountOperator;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
 
 public class PaymentAccountOperatorTest {
 
 
-    Logger testLogger = Logger.getRootLogger();
+    Logger testLogger = (Logger) LogManager.getLogger();
     String username = "nicholas";
     PaymentAccountOperator testPaymentAccountOperator = new PaymentAccountOperator(testLogger, username);
 

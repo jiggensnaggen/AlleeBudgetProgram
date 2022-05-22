@@ -1,7 +1,9 @@
 package org.example;
 
 import Operators.BillOperator;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.*;
+
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class BillOperatorTest {
-    Logger testLogger = Logger.getRootLogger();
+    Logger testLogger = (Logger) LogManager.getLogger();
     String username = "nicholas";
     BillOperator testBillOperator = new BillOperator(testLogger, username);
 

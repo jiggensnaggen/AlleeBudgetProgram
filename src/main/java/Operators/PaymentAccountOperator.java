@@ -1,6 +1,6 @@
 package Operators;
+import org.apache.logging.log4j.core.Logger;
 
-import org.apache.log4j.Logger;
 import org.example.SqlOperator;
 
 import java.util.Arrays;

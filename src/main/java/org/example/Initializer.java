@@ -1,7 +1,7 @@
 package org.example;
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.core.*;
 
 import java.io.IOException;
 import java.sql.SQLException;

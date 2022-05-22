@@ -1,6 +1,6 @@
 package org.example;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.core.*;
+import org.apache.logging.log4j.core.Logger;
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.StringColumn;
 import tech.tablesaw.api.Table;

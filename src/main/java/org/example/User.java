@@ -1,7 +1,8 @@
 package org.example;
 
 import Operators.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import java.util.Scanner;
 
 public class User {
 
-    private static final Logger logger = Logger.getLogger(User.class);
+    private static final Logger logger = (Logger) LogManager.getLogger(User.class);
 
     public User() {
         

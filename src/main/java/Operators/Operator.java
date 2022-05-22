@@ -1,6 +1,6 @@
 package Operators;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.core.*;
+import org.apache.logging.log4j.core.Logger;
 
 import java.io.File;
 import java.util.Scanner;
@@ -9,7 +9,7 @@ public class Operator {
     Logger logger;
     String username;
 
-    public Operator(Logger loggerFromAbove,String usernameFromAbove){
+    public Operator(Logger loggerFromAbove, String usernameFromAbove){
         logger = loggerFromAbove;
         username = usernameFromAbove;
     }

@@ -1,6 +1,5 @@
 package Operators;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.core.*;
 
 import java.util.Scanner;
 
