@@ -21,13 +21,13 @@ public abstract class Operator {
             System.out.println("Would you like to add from a csv file or manually add instances? 0 or 1?");
             selection = scanner.nextLine();
             if (Integer.parseInt(selection) == 0 | Integer.parseInt(selection) == 1){
-                return Integer.getInteger(selection);
+                return Integer.parseInt(selection);
             }
             else{
 
             }
         }
-        return Integer.getInteger(selection);
+        return Integer.parseInt(selection);
     }
 
     public String promptUserForCsvName(Scanner scanner) {

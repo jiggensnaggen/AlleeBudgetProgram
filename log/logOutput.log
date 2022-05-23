@@ -3,3 +3,9 @@
 2022-05-21 21:50:40 [main] FATAL Main:204 - Could not connect to the database.
 2022-05-21 21:54:29 [main] FATAL Main:204 - Could not connect to the database.
 2022-05-21 21:55:51 [main] FATAL Main:204 - Could not connect to the database.
+2022-05-22 14:47:18 [main] FATAL Main:196 - Statement INSERT INTO nicholasBillTable VALUES ('5','462','Boa Cash Rewards','Bank of America','credit','-1131','2','5','5','0'); was not executed successfully.
+2022-05-22 14:47:18 [main] FATAL Main:198 - com.microsoft.sqlserver.jdbc.SQLServerException: Column name or number of supplied values does not match table definition.
+2022-05-22 18:02:40 [main] FATAL Main:208 - Statement INSERT INTO nicholasBillTable VALUES (5, 462, 'Boa Cash Rewards', 'Bank of America', 'credit', -1131, 2, 5, 5, 0); was not executed successfully.
+2022-05-22 18:02:40 [main] FATAL Main:210 - com.microsoft.sqlserver.jdbc.SQLServerException: Column name or number of supplied values does not match table definition.
+2022-05-22 18:06:22 [main] FATAL Main:208 - Statement INSERT INTO nicholas PaymentAccountTable VALUES (5, 462, 'Boa Cash Rewards', 'Bank of America', 'credit', -1131, 2, 5, 5, 0); was not executed successfully.
+2022-05-22 18:06:22 [main] FATAL Main:210 - com.microsoft.sqlserver.jdbc.SQLServerException: Incorrect syntax near 'PaymentAccountTable'.

@@ -11,6 +11,7 @@ public class BillOperator extends Operator {
         super(logger, usernameFromAbove);
     }
 
+
     public void addBill(Scanner scanner, String username) {
         //have the user pick a csv file or manually enter the data
         Integer fromSwitch = this.askUserWhereFrom(scanner);
@@ -29,7 +30,7 @@ public class BillOperator extends Operator {
             while (!manualEntryStop) {
                 List<String> manualBillInstance = promptUserForManualBillInstance(scanner);
                 if (manualBillInstance.get(0) != "stop123"){
-                    addBillSqlOperator.pushManualDataToDatabase(manualBillInstance,username);
+                    addBillSqlOperator.pushManualDataToDatabase(manualBillInstance,username,"BillTable");
                 }
                 else{
                     manualEntryStop = true;
@@ -49,7 +50,7 @@ public class BillOperator extends Operator {
         billValuesRaw = billValuesRaw.replace(", ",",");
         Boolean checked = false;
         while(checked == false){
-            checked = validateManualBillInput(billValuesRaw);
+            checked = validateManualInput(billValuesRaw);
             if (checked == false){
                 promptUserForManualBillInstance(scanner);
             }
@@ -58,7 +59,8 @@ public class BillOperator extends Operator {
         return billValuesListOfString;
     }
 
-    public Boolean validateManualBillInput(String billValuesRaw) {
+    @Override
+    public Boolean validateManualInput(String billValuesRaw) {
         billValuesRaw = billValuesRaw.replace(" ", "");
         String[] x = billValuesRaw.split(",");
         try {

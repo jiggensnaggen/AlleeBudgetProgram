@@ -55,14 +55,26 @@ public class SqlOperator {
         ;
         return connectionUrl;
     }
-
-    public void pushManualDataToDatabase(List<String> manualInstance, String username) {
-        String query = "INSERT INTO " + username + "BillTable VALUES ('" + manualInstance.get(0);
-        for(int x = 1; x < manualInstance.size();x++){
-            query +=  "','" +manualInstance.get(x) ;
+/////// has to put '' on values that are strings and no '' on values that are numbers
+    public void pushManualDataToDatabase(List<String> manualInstance, String username, String tableName) {
+        String query = "INSERT INTO " + username + tableName + " VALUES (";
+        for(int x = 0; x < manualInstance.size()-1;x++){
+            if(isNumeric(manualInstance.get(x))) {
+                query +=  manualInstance.get(x) + ", ";
+            }
+            else{
+                query += "'" + manualInstance.get(x) + "', ";
+            }
 
         }
-        query += "');";
+        if(isNumeric(manualInstance.get(manualInstance.size()-1))) {
+            query +=  manualInstance.get(manualInstance.size()-1);
+        }
+        else{
+            query += "'" + manualInstance.get(manualInstance.size()-1) + "'";
+
+        }
+        query += ");";
         sendStatementToDatabase(query,createConnectionUrl(dbName));
     }
 
@@ -253,5 +265,24 @@ public class SqlOperator {
         System.out.println("couldnt get username id from the database. exiting here");
         System.exit(0);
         return -1;
+    }
+
+    public static boolean isNumeric(String string) {
+        int intValue;
+
+        System.out.println(String.format("Parsing string: \"%s\"", string));
+
+        if(string == null || string.equals("")) {
+            System.out.println("String cannot be parsed, it is null or empty.");
+            return false;
+        }
+
+        try {
+            intValue = Integer.parseInt(string);
+            return true;
+        } catch (NumberFormatException e) {
+            System.out.println("Input String cannot be parsed to Integer.");
+        }
+        return false;
     }
 }

@@ -29,7 +29,7 @@ public class BudgetOperator extends Operator{
             while (!manualEntryStop) {
                 List<String> manualBudgetInstance = promptUserForManualInstance(scanner,itemsRequiredPrint);
                 if (manualBudgetInstance.get(0) != "stop123"){
-                    addBudgetSqlOperator.pushManualDataToDatabase(manualBudgetInstance,username);
+                    addBudgetSqlOperator.pushManualDataToDatabase(manualBudgetInstance,username, "BudgetTable");
                 }
                 else{
                     manualEntryStop = true;

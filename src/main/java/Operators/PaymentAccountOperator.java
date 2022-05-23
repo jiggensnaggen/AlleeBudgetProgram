@@ -28,7 +28,7 @@ public class PaymentAccountOperator extends Operator{
             while (!manualEntryStop) {
                 List<String> manualPaymentAccountInstance = promptUserForManualPaymentAccountInstance(scanner);
                 if (manualPaymentAccountInstance.get(0) != "stop123"){
-                    addPaymentAccountSqlOperator.pushManualDataToDatabase(manualPaymentAccountInstance,username);
+                    addPaymentAccountSqlOperator.pushManualDataToDatabase(manualPaymentAccountInstance,username,"PaymentAccountTable");
                 }
                 else{
                     manualEntryStop = true;

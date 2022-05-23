@@ -9,6 +9,11 @@ public class GenerateWhatIfOperator extends Operator{
         super(logger, username);
     }
 
+    @Override
+    public Boolean validateManualInput(String valuesRaw) {
+        return null;
+    }
+
     public  void generateWhatIf(Scanner scanner, String username) {
     }
 }
