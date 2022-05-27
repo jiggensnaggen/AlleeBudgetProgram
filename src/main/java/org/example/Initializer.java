@@ -35,7 +35,7 @@ public class Initializer {
             initializerSqlOperator.createUsernameDatabaseAndTable();
             //fill the username table
             //crate a database for the corresponding username
-            System.out.println("No usernames present.");
+            logger.debug("No usernames present in the database. creating usernames table now.");
             //create username
             createUsernameInstance(initializerScanner);
 
