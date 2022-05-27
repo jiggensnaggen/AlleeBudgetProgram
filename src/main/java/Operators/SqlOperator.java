@@ -78,8 +78,8 @@ public class SqlOperator {
         sendStatementToDatabase(query,createConnectionUrl(dbName));
     }
 
-    public Boolean pushCsvDataToDatabase(String csvName, String username, String tableName) {
-        String csvQuery = "BULK INSERT " + username + tableName +  "\n" +
+    public Boolean pushCsvDataToDatabase(String csvName, String tableName) {
+        String csvQuery = "BULK INSERT " + tableName +  "\n" +
                 "FROM 'C:\\budgetingSourceData\\"+ csvName +".csv'\n" +
                 "WITH\n" +
                 "(\n" +
@@ -90,12 +90,12 @@ public class SqlOperator {
                 ")";
         try{
             sendStatementToDatabase(csvQuery,createConnectionUrl(dbName));
-            logger.debug("csv data pushed to database table " + username + tableName + " was successful.");
+            logger.debug("csv data pushed to database table " + tableName + " was successful.");
             return true;
         }
         catch(Exception e){
-            logger.debug("failed to push csv data to database table " + username + tableName + ".");
-            System.out.println("failed to push csv data to the "+ username + tableName + "table. Please check your data and try again.");
+            logger.debug("failed to push csv data to database table " + tableName + ".");
+            System.out.println("failed to push csv data to the "+ tableName + "table. Please check your data and try again.");
             e.printStackTrace();
             return false;
         }

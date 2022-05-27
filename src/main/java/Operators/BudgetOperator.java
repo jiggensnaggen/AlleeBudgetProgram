@@ -19,7 +19,7 @@ public class BudgetOperator extends Operator{
             Boolean outcomeOfCsvPush = false;
             while (outcomeOfCsvPush == false) {
                 csvName = promptUserForCsvName(scanner);
-                outcomeOfCsvPush = addBudgetSqlOperator.pushCsvDataToDatabase(csvName, username, "BudgetTable");
+                outcomeOfCsvPush = addBudgetSqlOperator.pushCsvDataToDatabase(csvName, "BudgetTable");
             }
         }
         else {

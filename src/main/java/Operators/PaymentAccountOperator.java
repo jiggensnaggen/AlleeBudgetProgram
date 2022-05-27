@@ -19,7 +19,7 @@ public class PaymentAccountOperator extends Operator{
             Boolean outcomeOfCsvPush = false;
             while (outcomeOfCsvPush == false) {
                 csvName = promptUserForCsvName(scanner);
-                outcomeOfCsvPush = addPaymentAccountSqlOperator.pushCsvDataToDatabase(csvName, username, "PaymentAccountTable");
+                outcomeOfCsvPush = addPaymentAccountSqlOperator.pushCsvDataToDatabase(csvName, "PaymentAccountTable");
             }
         }
         else {

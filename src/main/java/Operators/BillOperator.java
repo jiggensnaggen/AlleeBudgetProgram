@@ -21,7 +21,7 @@ public class BillOperator extends Operator {
             Boolean outcomeOfCsvPush = false;
             while (outcomeOfCsvPush == false) {
                 csvName = promptUserForCsvName(scanner);
-                outcomeOfCsvPush = addBillSqlOperator.pushCsvDataToDatabase(csvName, username, "BillTable");
+                outcomeOfCsvPush = addBillSqlOperator.pushCsvDataToDatabase(csvName, "BillTable");
             }
         }
         else {

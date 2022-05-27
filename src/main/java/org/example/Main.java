@@ -12,8 +12,10 @@ public class Main {
 
         final Logger logger = (Logger) LogManager.getLogger();
         Initializer mainInitializer = new Initializer(logger);
+        //finds usernames in the database and prompts the user to pick one
         String username = mainInitializer.runMe();
         User mainUser = new User();
+        // allows the user to pick from a list of actions
         mainUser.runMe(logger,username);
     }
 }

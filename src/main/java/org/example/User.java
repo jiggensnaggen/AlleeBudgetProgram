@@ -43,7 +43,7 @@ public class User {
             System.out.println("7: Exit");
             selectionString = scanner.nextLine();
 
-            //if invalid selction then return true to go again.
+            //if invalid selection then return true to go again.
             tryAgain = validateSelection(selectionString);
         }
         return Integer.valueOf(selectionString);
