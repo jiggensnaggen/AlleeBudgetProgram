@@ -79,15 +79,8 @@ public class SqlOperator {
     }
 
     public Boolean pushCsvDataToDatabase(String csvName, String tableName) {
-        String csvQuery = "BULK INSERT " + tableName +  "\n" +
-                "FROM 'C:\\budgetingSourceData\\"+ csvName +".csv'\n" +
-                "WITH\n" +
-                "(\n" +
-                "    FIRSTROW = 2, -- as 1st one is header\n" +
-                "    FIELDTERMINATOR = ',',  --CSV field delimiter\n" +
-                "    ROWTERMINATOR = '\\n',   --Use to shift the control to next row\n" +
-                "    TABLOCK\n" +
-                ")";
+        //String csvQuery = "BULK INSERT " + tableName +  " FROM 'C:\\budgetingSourceData\\"+ csvName +".csv'" + " WITH" + "( FIRSTROW = 2, FIELDTERMINATOR = ',', ROWTERMINATOR = '\\n', TABLOCK )";
+        String csvQuery = "BULK INSERT " + tableName + " FROM 'C:\\budgetingSourceData\\" + csvName + ".csv' WITH (DATAFILETYPE = 'char', FIELDQUOTE = '\"',FIRSTROW = 2,FIELDTERMINATOR = ',', ROWTERMINATOR = '0x0a', TABLOCK);";
         try{
             sendStatementToDatabase(csvQuery,createConnectionUrl(dbName));
             logger.debug("csv data pushed to database table " + tableName + " was successful.");

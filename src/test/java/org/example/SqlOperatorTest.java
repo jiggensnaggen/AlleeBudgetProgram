@@ -16,6 +16,6 @@ public class SqlOperatorTest {
 
     @Test
     public void verifyPushCsvDataToDb(){
-        assertEquals(true, testSQLOperator.pushCsvDataToDatabase("paymentAccountTableNichols","nicholasPaymentAccountTable"));
+        assertEquals(true, testSQLOperator.pushCsvDataToDatabase("paymentAccountTableNicholas","nicholasPaymentAccountTable"));
     }
 }
