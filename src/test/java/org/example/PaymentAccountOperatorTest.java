@@ -50,6 +50,4 @@ public class PaymentAccountOperatorTest {
         Boolean result = testPaymentAccountOperator.validateManualInput(paymentAccountValuesTestGood);
         assertEquals(result,true);
     }
-
-
 }

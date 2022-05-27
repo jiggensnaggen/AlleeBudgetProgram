@@ -1,0 +1,8 @@
+2022-05-27 14:54:09 [main] FATAL SqlOperatorTest:201 - Statement BULK INSERT nicholasBudgetTable FROM 'C:\budgetingSourceData\budgetTableTest.csv' WITH (DATAFILETYPE = 'char', FIELDQUOTE = '"',FIRSTROW = 2,FIELDTERMINATOR = ',', ROWTERMINATOR = '0x0a', TABLOCK); was not executed successfully.
+2022-05-27 14:54:09 [main] FATAL SqlOperatorTest:203 - com.microsoft.sqlserver.jdbc.SQLServerException: Cannot bulk load because the file "C:\budgetingSourceData\budgetTableTest.csv" could not be opened. Operating system error code 32(The process cannot access the file because it is being used by another process.).
+2022-05-27 14:54:40 [main] FATAL SqlOperatorTest:201 - Statement BULK INSERT nicholasBudgetTable FROM 'C:\budgetingSourceData\budgetTableTest.csv' WITH (DATAFILETYPE = 'char', FIELDQUOTE = '"',FIRSTROW = 2,FIELDTERMINATOR = ',', ROWTERMINATOR = '0x0a', TABLOCK); was not executed successfully.
+2022-05-27 14:54:40 [main] FATAL SqlOperatorTest:203 - com.microsoft.sqlserver.jdbc.SQLServerException: Bulk load data conversion error (type mismatch or invalid character for the specified codepage) for row 2, column 10 (budget_instance_id).
+2022-05-27 15:01:23 [main] FATAL CompleteResetTest:201 - Statement Remove from usernames; was not executed successfully.
+2022-05-27 15:01:23 [main] FATAL CompleteResetTest:203 - com.microsoft.sqlserver.jdbc.SQLServerException: Incorrect syntax near the keyword 'from'.
+2022-05-27 15:01:46 [main] FATAL CompleteResetTest:201 - Statement DROP TABLE nicholasPaymentAccountTable; was not executed successfully.
+2022-05-27 15:01:46 [main] FATAL CompleteResetTest:203 - com.microsoft.sqlserver.jdbc.SQLServerException: Cannot drop the table 'nicholasPaymentAccountTable', because it does not exist or you do not have permission.
