@@ -35,7 +35,7 @@ public class SqlOperator {
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("BudgetTable".equals(tableName)) {
-            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (budget_id INTEGER, category VARCHAR(255), subcategory VARCHAR(255), limit DECIMAL(38,2), amount_used DECIMAL(38,2), amount_left DECIMAL(38,2), budget_start DATETIME, budget_end DATETIME,  budgeted_transaction_id_list VARCHAR(255), budget_instance_id INTEGER);";
+            createTableQuery = "CREATE TABLE " + chosenUser  + tableName + " (budget_id INTEGER, category VARCHAR(255), subcategory VARCHAR(255), limit DECIMAL(38,2), amount_used DECIMAL(38,2), amount_left DECIMAL(38,2), budget_start DATETIME, budget_end DATETIME, budget_instance_id INTEGER);";
             sendStatementToDatabase(createTableQuery, createTableConnectionUrl);
 
         } else if ("MasterTable".equals(tableName)) {

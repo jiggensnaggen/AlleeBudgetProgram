@@ -25,7 +25,7 @@ public class BudgetOperator extends Operator{
         else {
             //repeat until user wants to stop
             boolean manualEntryStop = false;
-            String itemsRequiredPrint = "budget_id, category, subcategory, limit, amount_used, amount_left, budget_start, budget_end,  budgeted_transaction_id_list, budget_instance_id";
+            String itemsRequiredPrint = "budget_id, category, subcategory, limit, amount_used, amount_left, budget_start, budget_end, budget_instance_id";
             while (!manualEntryStop) {
                 List<String> manualBudgetInstance = promptUserForManualInstance(scanner,itemsRequiredPrint);
                 if (manualBudgetInstance.get(0) != "stop123"){
@@ -96,7 +96,7 @@ public class BudgetOperator extends Operator{
             return returner;
         }
         catch(Exception e){
-            logger.debug("user input for bill is incorrect.");
+            logger.debug("user input for budget is incorrect.");
             logger.debug(e.toString());
             return false;
         }
